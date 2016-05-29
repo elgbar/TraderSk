@@ -1,0 +1,5 @@
+name: CostumSkriptPlugin
+main: com.kh498.main.Register
+version: 1.0.0
+soft-depend: [Skript, Merchants]
+author: kh498
