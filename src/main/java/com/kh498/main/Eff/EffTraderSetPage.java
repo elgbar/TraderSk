@@ -13,7 +13,7 @@ import ch.njol.util.Kleenean;
 import com.kh498.main.trader.Trader;
 
 public class EffTraderSetPage extends Effect {
-	private Expression<Integer> page;
+	private Expression<Number> page;
 	private Expression<String> trader;
 	private Expression<ItemStack> item0;
 	private Expression<ItemStack> item1;
@@ -22,7 +22,7 @@ public class EffTraderSetPage extends Effect {
 	@SuppressWarnings("unchecked")
 	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2,
 			ParseResult arg3) {
-		page = (Expression<Integer>) expr[0];
+		page = (Expression<Number>) expr[0];
 		trader = (Expression<String>) expr[1];
 		item0 = (Expression<ItemStack>) expr[2];
 		item1 = (Expression<ItemStack>) expr[3];
@@ -36,18 +36,24 @@ public class EffTraderSetPage extends Effect {
 
 	@Override
 	protected void execute(Event e) {
-		Integer page = this.page.getSingle(e);
+		Integer page  = ((Number) this.page.getSingle(e)).intValue();
+		
+		if (page % 1 != 0){
+			return;
+		}
+		
 		String trader = this.trader.getSingle(e);
 		ItemStack item0 = this.item0.getSingle(e);
 		ItemStack item1 = this.item1.getSingle(e);
 		ItemStack item2;
+		
+		// page2 can be null
 		try {
 			item2 = this.item2.getSingle(e);
 		} catch (NullPointerException ex) {
 			item2 = null;
 		}
 
-		// page2 can be null
 		if (page == null || trader == null || item0 == null || item1 == null) {
 			return;
 		}

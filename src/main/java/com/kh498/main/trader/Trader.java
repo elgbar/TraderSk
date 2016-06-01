@@ -2,6 +2,8 @@ package com.kh498.main.trader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import me.cybermaxke.merchants.api.Merchant;
 import me.cybermaxke.merchants.api.MerchantAPI;
@@ -15,26 +17,34 @@ import org.bukkit.inventory.ItemStack;
 import ch.njol.skript.Skript;
 import ch.njol.skript.log.ErrorQuality;
 
+import com.kh498.main.Main;
+
 public class Trader {
-	@SuppressWarnings("rawtypes")
-	private static HashMap<String, ArrayList> Traders = new HashMap<String, ArrayList>();
+	private static Map<String, Object> Traders = new HashMap<String, Object>();
 	private static boolean debug = false;
 
+	private static Main instance;
+
+	public Trader(Main instance) {
+		Trader.instance = instance;
+	}
+
 	public static void TraderNew(String name) {
-		ArrayList<ItemStack> list = new ArrayList<ItemStack>(0);
-		list.ensureCapacity(100);
+		List<ItemStack> list = new ArrayList<ItemStack>();
 		Traders.put(name, list);
 	}
 
 	public static void TraderRemove(String name) {
 		if (Traders.containsKey(name)) {
 			@SuppressWarnings("unchecked")
-			ArrayList<ItemStack> list = Traders.get(name);
+			List<ItemStack> list = (List<ItemStack>) Traders.get(name);
 
 			if (list.isEmpty()) {
 				return;
 			}
 			list.clear();
+			instance.saveTraders(false);
+			
 			Traders.remove(name);
 		} else {
 			noTrader(name);
@@ -44,15 +54,13 @@ public class Trader {
 	public static void TraderRemovePage(String name, int page) {
 		if (Traders.containsKey(name)) {
 			@SuppressWarnings("unchecked")
-			ArrayList<ItemStack> list = Traders.get(name);
+			List<ItemStack> list = (List<ItemStack>) Traders.get(name);
 
 			if (list.isEmpty()) {
 				return;
 			}
 
-			int pages = getPages(list) - 1; // get it to start from 0
-			// Skript.error("The requested page number is too high, it cannot be higher than "
-			// + pages);
+			int pages = getPages(list) - 1;
 
 			if (0 > page) {
 				Skript.error("The requested page number is too low, it cannot be lower than 0");
@@ -62,9 +70,8 @@ public class Trader {
 						+ pages);
 				return;
 			}
-
-			page = page * 3; // set the proper page (as there is 3 items per
-								// page)
+			// set the proper page (as there is 3 items per page)
+			page = page * 3; 
 
 			if (pages == 0) {
 				list.clear();
@@ -79,8 +86,14 @@ public class Trader {
 			for (int i = 2; i >= 0; i--) {
 				list.remove(page + i);
 			}
+			
+			//save items to disk
+			Traders.replace(name, list); // update the trader list
+			instance.saveTraders(false);
+			
 			if (debug)
 				Skript.error("after:  " + list);
+		
 		} else {
 			noTrader(name);
 		}
@@ -94,22 +107,18 @@ public class Trader {
 	 * @param page
 	 *            What page to modify
 	 * @param item0
-	 *            Item set in the out slot
+	 *            Item set in the out slot, cannot be null
 	 * @param item1
-	 *            Item set in the first in slot
+	 *            Item set in the first in slot, cannot be null
 	 * @param item2
 	 *            Item set in the secound in slot, can be null
 	 */
-	// name of trader, page nr and items(item0 = in 1 item, item1 = in 2 item
-	// item2 = out item)
 	public static void TraderSetPage(String name, int page, ItemStack item0,
 			ItemStack item1, ItemStack item2) {
 		// The trader exist
 		if (Traders.containsKey(name)) {
 			@SuppressWarnings("unchecked")
-			ArrayList<ItemStack> list = Traders.get(name); // list over all
-															// items for this
-															// trader
+			List<ItemStack> list = (List<ItemStack>) Traders.get(name);
 			page = page * 3; // set the proper page (as there is 3 items per
 								// page)
 			ItemStack itemIn = null; // item in if there is only one input item
@@ -125,7 +134,7 @@ public class Trader {
 					}
 				} catch (IndexOutOfBoundsException e) {
 					Skript.error("Could not add items to page "
-							+ ((page / 3) - 3)
+							+ (page / 3)
 							+ " as there are no items in the previous page.");
 					return;
 				}
@@ -138,7 +147,7 @@ public class Trader {
 				itemIn = item1;
 			}
 
-			if (item0 == null && (item1 == null || item2 == null)) {
+			if (item0 == null || (item1 == null && item2 == null)) {
 				Skript.error(
 						"Output item and at least one input item must exist",
 						ErrorQuality.SEMANTIC_ERROR);
@@ -148,6 +157,7 @@ public class Trader {
 			// Check if any of the items are invalid
 			if (!isValidMaterial(item0, false)
 					|| !isValidMaterial(item1, false)
+					|| !isValidMaterial(item2, true)
 					|| !isValidMaterial(itemIn, true)) {
 				Skript.error("One of the items is a blacklisted item!",
 						ErrorQuality.SEMANTIC_ERROR);
@@ -224,6 +234,7 @@ public class Trader {
 				}
 			}
 			Traders.replace(name, list); // update the trader list
+			instance.saveTraders(false);
 		} else {
 			noTrader(name);
 		}
@@ -232,9 +243,11 @@ public class Trader {
 	public static void TraderListPages(String name, Player player) {
 		if (Traders.containsKey(name)) {
 			@SuppressWarnings("unchecked")
-			ArrayList<ItemStack> list = Traders.get(name); // list over all
-															// items for this
-															// trader
+			List<ItemStack> list = (List<ItemStack>) Traders.get(name); // list
+																		// over
+																		// all
+			// items for this
+			// trader
 			int pages = getPages(list);
 			String ShowItem0, ShowItem1, ShowItem2;
 			ShowItem0 = ShowItem1 = ShowItem2 = "Empty";
@@ -269,9 +282,8 @@ public class Trader {
 		// The trader exist
 		if (Traders.containsKey(name)) {
 			@SuppressWarnings("unchecked")
-			ArrayList<ItemStack> list = Traders.get(name); // list over all
-															// items for this
-															// trader
+			// list over all items for this trader
+			List<ItemStack> list = (List<ItemStack>) Traders.get(name);
 
 			// if there is no items, do not open the trader
 			if (list.size() == 0) {
@@ -287,7 +299,13 @@ public class Trader {
 
 			// create merchant
 			MerchantAPI api = Merchants.get();
-			Merchant merchant = api.newMerchant(name);
+			Merchant merchant;
+			try {
+				merchant = api.newMerchant("");
+			} catch (NullPointerException e) {
+				Skript.error("Could create merchant as it did not exist.\n" + e);
+				return;
+			}
 
 			for (int i = 0; i < pages; i++) {
 				page = i * 3;
@@ -331,8 +349,7 @@ public class Trader {
 					// item.getType().equals(Material.getMaterial("")) ||
 					item.getType().equals(
 							Material.getMaterial("DOUBLE_STONE_SLAB"))
-					|| // TODO test
-					item.getType().equals(
+					|| item.getType().equals(
 							Material.getMaterial("REDSTONE_COMPARATOR_ON"))
 					|| item.getType().equals(
 							Material.getMaterial("REDSTONE_COMPARATOR_OFF"))
@@ -405,10 +422,8 @@ public class Trader {
 			}
 		}
 	}
-
-	private static int getPages(ArrayList<ItemStack> list) { // get number of
-																// pages in for
-																// a trader
+	// get number of pages in for a trader
+	private static int getPages(List<ItemStack> list) { 
 		return Math.floorDiv(list.size() + 1, 3);
 	}
 
@@ -417,4 +432,11 @@ public class Trader {
 				ErrorQuality.SEMANTIC_ERROR);
 	}
 
+	public static Map<String, Object> getTrader() {
+		return Traders;
+	}
+
+	public static void setTrader(Map<String, Object> map) {
+		Traders = map;
+	}
 }

@@ -37,6 +37,6 @@
 			<attribute name="javadoc_location" value="file:/C:/Users/karl henrik/Documents/Eclipse Workspace/skript-2.2-20141001.163423-2-javadoc"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/MC/servers/1.8.8_Skript_Development/plugins/merchants-spigot-v18r3-1.2.0-SNAPSHOT-release.jar"/>
+	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot_server 1.8r3.jar"/>
 	<classpathentry kind="output" path="target/plugins"/>
 </classpath>
