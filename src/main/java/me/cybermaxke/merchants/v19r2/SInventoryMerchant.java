@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with MerchantsAPI. If not, see <http://www.gnu.org/licenses/>.
  */
-package me.cybermaxke.merchants.v18r3;
+package me.cybermaxke.merchants.v19r2;
 
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.InventoryMerchant;
+import net.minecraft.server.v1_9_R2.EntityHuman;
+import net.minecraft.server.v1_9_R2.EntityPlayer;
+import net.minecraft.server.v1_9_R2.InventoryMerchant;
 
 public class SInventoryMerchant extends InventoryMerchant {
 

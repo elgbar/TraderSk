@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with MerchantsAPI. If not, see <http://www.gnu.org/licenses/>.
  */
-package me.cybermaxke.merchants.v18r3;
+package me.cybermaxke.merchants.v19r2;
 
 import java.lang.reflect.Field;
 
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryView;
+import org.bukkit.craftbukkit.v1_9_R2.inventory.CraftInventoryView;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_8_R3.ContainerMerchant;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.InventoryMerchant;
-import net.minecraft.server.v1_8_R3.Slot;
+import net.minecraft.server.v1_9_R2.ContainerMerchant;
+import net.minecraft.server.v1_9_R2.EntityHuman;
+import net.minecraft.server.v1_9_R2.EntityPlayer;
+import net.minecraft.server.v1_9_R2.InventoryMerchant;
+import net.minecraft.server.v1_9_R2.Slot;
 
 public class SContainerMerchant extends ContainerMerchant {
 	// The field of the merchant inventory in the container

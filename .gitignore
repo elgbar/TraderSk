@@ -61,6 +61,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-target/maven-archiver/pom.properties
-target/classes/plugin.yml
+target/
 *.bat

@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with MerchantsAPI. If not, see <http://www.gnu.org/licenses/>.
  */
-package me.cybermaxke.merchants.v18r3;
+package me.cybermaxke.merchants.v19r2;
 
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryMerchant;
+import org.bukkit.craftbukkit.v1_9_R2.inventory.CraftInventoryMerchant;
 
 import me.cybermaxke.merchants.api.Merchant;
 import me.cybermaxke.merchants.api.MerchantInventory;

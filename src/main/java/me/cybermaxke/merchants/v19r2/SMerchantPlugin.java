@@ -16,36 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with MerchantsAPI. If not, see <http://www.gnu.org/licenses/>.
  */
-package me.cybermaxke.merchants.api;
+package me.cybermaxke.merchants.v19r2;
 
-public interface MerchantInventory extends org.bukkit.inventory.MerchantInventory {
-	
-	/**
-	 * Gets the {@link MerchantSession} of this inventory.
-	 * 
-	 * @return The merchant session
-	 */
-	MerchantSession getSession();
+import me.cybermaxke.merchants.api.Merchants;
 
-	/**
-	 * Gets the {@link Merchant} that is assigned to this inventory.
-	 * 
-	 * @return The merchant
-	 */
-	Merchant getMerchant();
+import org.bukkit.plugin.java.JavaPlugin;
 
-	/**
-	 * Gets the index of the offer that is selected.
-	 * 
-	 * @return The index
-	 */
-	int getSelectedOfferIndex();
+public class SMerchantPlugin extends JavaPlugin {
 
-	/**
-	 * Gets the {@link MerchantOffer} that is selected.
-	 * 
-	 * @return The offer
-	 */
-	MerchantOffer getSelectedOffer();
+	@Override
+	public void onEnable() {
+		Merchants.set(new SMerchantAPI());
+	}
 
 }

@@ -16,38 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with MerchantsAPI. If not, see <http://www.gnu.org/licenses/>.
  */
-package me.cybermaxke.merchants.v18r3;
+package me.cybermaxke.merchants.v19r2;
 
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryMerchant;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import me.cybermaxke.merchants.api.Merchant;
-import me.cybermaxke.merchants.api.MerchantInventory;
-import me.cybermaxke.merchants.api.MerchantOffer;
 import me.cybermaxke.merchants.api.MerchantSession;
 
-public class SCraftInventoryMerchant extends CraftInventoryMerchant implements MerchantInventory {
+public class SMerchantSession implements MerchantSession {
+	
+	private final Merchant merchant;
+	private final Inventory inventory;
+	private final Player customer;
+	
+	public SMerchantSession(Merchant merchant, Inventory inventory, Player customer) {
+		this.inventory = inventory;
+		this.merchant = merchant;
+		this.customer = customer;
+	}
 
-	public SCraftInventoryMerchant(SInventoryMerchant merchant) {
-		super(merchant);
+	@Override
+	public Inventory getInventory() {
+		return this.inventory;
+	}
+
+	@Override
+	public Player getCustomer() {
+		return this.customer;
 	}
 
 	@Override
 	public Merchant getMerchant() {
-		return ((SInventoryMerchant) this.inventory).merchant;
-	}
-
-	@Override
-	public int getSelectedOfferIndex() {
-		return ((SInventoryMerchant) this.inventory).currentIndex;
-	}
-
-	@Override
-	public MerchantOffer getSelectedOffer() {
-		return this.getMerchant().getOfferAt(this.getSelectedOfferIndex());
-	}
-
-	@Override
-	public MerchantSession getSession() {
-		return ((SInventoryMerchant) this.inventory).getOwner();
+		return this.merchant;
 	}
 }

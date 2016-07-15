@@ -1,5 +1,12 @@
 name: TraderSk
+
 main: com.kh498.main.Main
-version: 1.1.0
-soft-depend: [Skript, Merchants]
-author: kh498
+
+version: 1.2.0
+
+description: Addon to Njol's Skript using Cybermaxke's MerchantsAPI to open merchant inventories within skript
+
+depend: [Skript]
+soft-depend: [Merchants]
+
+authors: [kh498, Cybermaxke]
