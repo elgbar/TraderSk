@@ -39,5 +39,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot_server 1.8r3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.10.2.jar"/>
 	<classpathentry kind="output" path="target/plugins"/>
 </classpath>
