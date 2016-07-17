@@ -105,9 +105,12 @@ public class Main extends JavaPlugin {
 		if (versionMatch) {
 			Skript.registerAddon(this);
 			if (Skript.isAcceptRegistrations()) {
-				register = Register.RegisterMerchants(); // enable Merchants
-															// effects
-				loadTraders();
+				register = Register.RegisterMerchants(); // enable Merchants effect
+				try {
+					loadTraders();
+				} catch (NullPointerException e){
+					getLogger().warning("COULD NOT LOAD TRADERS DUE TO YOU USING AN OLD VERSION OF THE CONFIG FILE! TO FIX THIS SIMPLY DELETE THE CONFIG.YML IN /PLUGINS/TRADERSK/");
+				}
 			} else {
 				Skript.error("Could not register effects as skript is not accepting registrations.");
 			}
@@ -156,7 +159,8 @@ public class Main extends JavaPlugin {
 		}
 		try {
 			this.saveConfig();
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
+			getLogger().warning("Could not save config, are you using an old version of it?");
 			e.printStackTrace();
 		}
 	}
