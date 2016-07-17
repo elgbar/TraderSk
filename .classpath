@@ -32,13 +32,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/MC/servers/1.8.8_Skript_Development/plugins/Skript 2.2 Fixes V8b.jar" sourcepath="C:/Users/karl henrik/Documents/Eclipse Workspace/skript-2.2-20140708.133344-1-javadoc.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/karl henrik/Documents/Eclipse Workspace/skript-2.2-20141001.163423-2-javadoc"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot_server 1.8r3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/Skript 2.2 Fixes V8b.jar"/>
 	<classpathentry kind="output" path="target/plugins"/>
 </classpath>

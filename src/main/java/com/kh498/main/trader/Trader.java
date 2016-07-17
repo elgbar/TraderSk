@@ -415,17 +415,16 @@ public class Trader {
 		Merchant merchant;
 		try {
 			String title = TradersName.get(trader);
-			merchant = api.newMerchant(title);
-			//String name = getTitle(list); //get the title from the list
-//			System.out.println(title);
-			if (title != null)
+			if (title != null) {
+				merchant = api.newMerchant(title);
 				merchant.setTitle(title);
-			else
-				 // set the name of the inventory to the traders name
+			} else {
+				merchant = api.newMerchant(trader);
 				merchant.setTitle(trader);
+			}
 		} catch (NullPointerException e) {
-			Skript.error("Could not open merchant as the api is not enabled.");
-			e.printStackTrace();
+			Skript.exception(e, "Could not open merchant as the api is not enabled.");
+			//e.printStackTrace();
 			return;
 		}
 		//first page starts at 0 therefore i == 0
