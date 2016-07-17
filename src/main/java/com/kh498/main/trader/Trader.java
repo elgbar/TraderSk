@@ -19,6 +19,8 @@
 
 package com.kh498.main.trader;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,7 @@ import me.cybermaxke.merchants.api.Merchants;
 
 public class Trader {
 	private static Map<String, Object> Traders = new HashMap<String, Object>();
+	private static Map<String, String> TradersName = new HashMap<String, String>();
 	private static boolean debug = false;
 
 	private static Main main;
@@ -55,23 +58,10 @@ public class Trader {
 	 *            Name of trader
 	 */
 	public static void TraderNew(String trader) {
-		List<ItemStack> list = new ArrayList<ItemStack>(3);
-
-		//ItemStack air = new ItemStack(Material.AIR);
-
-		/*
-		 * The tree (0-2) fist indexes are not used for items but rather contain
-		 * air with different properties Such at the title for the inventory.
-		 * Index 1 and 2 are not currently used. The reason it is three slots is
-		 * because one page holds three items, and this "page" is no different.
-		 */
+		List<ItemStack> list = new ArrayList<ItemStack>();
 		
-		//list.add(air); // Name of trader index
-		//list.add(air); // unused index
-		//list.add(air); // unused index
-		/* Unused untill next upload
 		TraderSetTitle(trader); // set the default name of merchant inventory
-		*/
+		
 		Traders.put(trader, list);
 	}
 
@@ -83,7 +73,6 @@ public class Trader {
 	 */
 	
 	
-	/*
 	public static void TraderSetTitle(String trader) {
 		TraderSetTitle(trader, trader);
 	}
@@ -94,34 +83,35 @@ public class Trader {
 	 *            Name of trader
 	 * @param name
 	 *            Display name of trader
-	 * /
+	 */
 
-	@SuppressWarnings("unchecked")
 	public static void TraderSetTitle(String trader, String name) {
 		checkNotNull(name, "name");
 		if (!validTrader(trader)) { return; } // return if the trader cannot be found
 		
-		List<ItemStack> list = (List<ItemStack>) Traders.get(trader);
-		
-		// index 0 is always the name of the trader
-		try {
-			//Cannot change displayname of air, so stone is the next material
-			ItemStack traderName = new ItemStack(Material.STONE); 
-			
-			ItemMeta newMeta = traderName.getItemMeta();
-			newMeta.setDisplayName(name); //set the display name
-			traderName.setItemMeta(newMeta); //save newMeta to traderName
-			list.set(0, traderName); //update list with the new traderName
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		//Don't change the name if it is the same
+		String oldName = TradersName.get(trader);
+//		System.out.println("New name: " + name);
+//		System.out.println("Old name: " + oldName);
+		if (oldName != null) {
+			if (oldName.equals(name)) {
+//				System.out.println("EQL old name");
+				return; 
+			}
 		}
-
+		// update the trader list
+		try {
+			TradersName.put(trader, name);
+//			System.out.println("Replacing");
+		} catch (NullPointerException e) {
+			TradersName.replace(trader, name); 
+//			System.out.println("Putting");
+		}
+		
 		// Save trades to disk
-		Traders.replace(trader, list); // update the trader list
 		main.saveTraders(false);
 	}
-	 */
+	 
 	
 	/**
 	 * Removes a trader
@@ -424,16 +414,20 @@ public class Trader {
 		MerchantAPI api = Merchants.get();
 		Merchant merchant;
 		try {
-			merchant = api.newMerchant(trader);
+			String title = TradersName.get(trader);
+			merchant = api.newMerchant(title);
 			//String name = getTitle(list); //get the title from the list
-			merchant.setTitle(trader); // set the name of the inventory to
-										// the traders name
+//			System.out.println(title);
+			if (title != null)
+				merchant.setTitle(title);
+			else
+				 // set the name of the inventory to the traders name
+				merchant.setTitle(trader);
 		} catch (NullPointerException e) {
 			Skript.error("Could not open merchant as the api is not enabled.");
 			e.printStackTrace();
 			return;
 		}
-		//TODO i = 1
 		//first page starts at 0 therefore i == 0
 		for (int i = 0; i < pages; i++) {
 			page = i * 3;
@@ -478,50 +472,51 @@ public class Trader {
 	private static boolean isValidMaterial(ItemStack item, boolean canBeNull) {
 		if (item != null) {
 			// below is list of illegal materials
+			Material itemType = item.getType();
 			if (
 			// item.getTypeId() == || //
 			item.getTypeId() == 115 || // nether wart block
 					item.getTypeId() == 36 || // moved block (?)
 
 					// item.getType().equals(Material.getMaterial("")) ||
-					item.getType().equals(Material.getMaterial("DOUBLE_STONE_SLAB"))
-					|| item.getType().equals(Material.getMaterial("REDSTONE_COMPARATOR_ON"))
-					|| item.getType().equals(Material.getMaterial("REDSTONE_COMPARATOR_OFF"))
-					|| item.getType().equals(Material.getMaterial("FLOWER_POT"))
-					|| item.getType().equals(Material.getMaterial("TRIPWIRE"))
-					|| item.getType().equals(Material.getMaterial("REDSTONE_LAMP_ON"))
-					|| item.getType().equals(Material.getMaterial("POTATO"))
-					|| item.getType().equals(Material.getMaterial("CARROT"))
-					|| item.getType().equals(Material.getMaterial("CAULDRON"))
-					|| item.getType().equals(Material.getMaterial("REWING_STAND"))
-					|| item.getType().equals(Material.getMaterial("SKULL"))
-					|| item.getType().equals(Material.getMaterial("WOODEN_DOOR"))
-					|| item.getType().equals(Material.getMaterial("SPRUCE_DOOR"))
-					|| item.getType().equals(Material.getMaterial("JUNGLE_DOOR"))
-					|| item.getType().equals(Material.getMaterial("DARK_OAK_DOOR"))
-					|| item.getType().equals(Material.getMaterial("ACACIA_DOOR"))
-					|| item.getType().equals(Material.getMaterial("BIRCH_DOOR"))
-					|| item.getType().equals(Material.getMaterial("DIODE_BLOCK_ON"))
-					|| item.getType().equals(Material.getMaterial("DIODE_BLOCK_OFF"))
-					|| item.getType().equals(Material.getMaterial("CAKE_BLOCK"))
-					|| item.getType().equals(Material.getMaterial("SUGAR_CANE_BLOCK"))
-					|| item.getType().equals(Material.getMaterial("IRON_DOOR_BLOCK"))
-					|| item.getType().equals(Material.getMaterial("SIGN_POST "))
-					|| item.getType().equals(Material.getMaterial("WALL_SIGN"))
-					|| item.getType().equals(Material.getMaterial("REDSTONE_WIRE"))
-					|| item.getType().equals(Material.getMaterial("COCOA"))
-					|| item.getType().equals(Material.getMaterial("AIR"))
-					|| item.getType().equals(Material.getMaterial("WATER"))
-					|| item.getType().equals(Material.getMaterial("STATIONARY_WATER"))
-					|| item.getType().equals(Material.getMaterial("LAVA"))
-					|| item.getType().equals(Material.getMaterial("STATIONARY_LAVA"))
-					|| item.getType().equals(Material.getMaterial("PORTAL"))
-					|| item.getType().equals(Material.getMaterial("ENDER_PORTAL"))
-					|| item.getType().equals(Material.getMaterial("PISTON_EXTENSION"))
-					|| item.getType().equals(Material.getMaterial("PISTON_MOVING_PIECE"))
-					|| item.getType().equals(Material.getMaterial("BED_BLOCK"))
-					|| item.getType().equals(Material.getMaterial("MELON_STEM"))
-					|| item.getType().equals(Material.getMaterial("FIRE"))) {
+					itemType.equals(Material.getMaterial("DOUBLE_STONE_SLAB"))
+					|| itemType.equals(Material.getMaterial("REDSTONE_COMPARATOR_ON"))
+					|| itemType.equals(Material.getMaterial("REDSTONE_COMPARATOR_OFF"))
+					|| itemType.equals(Material.getMaterial("FLOWER_POT"))
+					|| itemType.equals(Material.getMaterial("TRIPWIRE"))
+					|| itemType.equals(Material.getMaterial("REDSTONE_LAMP_ON"))
+					|| itemType.equals(Material.getMaterial("POTATO"))
+					|| itemType.equals(Material.getMaterial("CARROT"))
+					|| itemType.equals(Material.getMaterial("CAULDRON"))
+					|| itemType.equals(Material.getMaterial("REWING_STAND"))
+					|| itemType.equals(Material.getMaterial("SKULL"))
+					|| itemType.equals(Material.getMaterial("WOODEN_DOOR"))
+					|| itemType.equals(Material.getMaterial("SPRUCE_DOOR"))
+					|| itemType.equals(Material.getMaterial("JUNGLE_DOOR"))
+					|| itemType.equals(Material.getMaterial("DARK_OAK_DOOR"))
+					|| itemType.equals(Material.getMaterial("ACACIA_DOOR"))
+					|| itemType.equals(Material.getMaterial("BIRCH_DOOR"))
+					|| itemType.equals(Material.getMaterial("DIODE_BLOCK_ON"))
+					|| itemType.equals(Material.getMaterial("DIODE_BLOCK_OFF"))
+					|| itemType.equals(Material.getMaterial("CAKE_BLOCK"))
+					|| itemType.equals(Material.getMaterial("SUGAR_CANE_BLOCK"))
+					|| itemType.equals(Material.getMaterial("IRON_DOOR_BLOCK"))
+					|| itemType.equals(Material.getMaterial("SIGN_POST "))
+					|| itemType.equals(Material.getMaterial("WALL_SIGN"))
+					|| itemType.equals(Material.getMaterial("REDSTONE_WIRE"))
+					|| itemType.equals(Material.getMaterial("COCOA"))
+					|| itemType.equals(Material.getMaterial("AIR"))
+					|| itemType.equals(Material.getMaterial("WATER"))
+					|| itemType.equals(Material.getMaterial("STATIONARY_WATER"))
+					|| itemType.equals(Material.getMaterial("LAVA"))
+					|| itemType.equals(Material.getMaterial("STATIONARY_LAVA"))
+					|| itemType.equals(Material.getMaterial("PORTAL"))
+					|| itemType.equals(Material.getMaterial("ENDER_PORTAL"))
+					|| itemType.equals(Material.getMaterial("PISTON_EXTENSION"))
+					|| itemType.equals(Material.getMaterial("PISTON_MOVING_PIECE"))
+					|| itemType.equals(Material.getMaterial("BED_BLOCK"))
+					|| itemType.equals(Material.getMaterial("MELON_STEM"))
+					|| itemType.equals(Material.getMaterial("FIRE"))) {
 				Skript.error("Illegal material for one of the items '" + item.getType() + "'");
 				return false;
 			} else {
@@ -578,5 +573,13 @@ public class Trader {
 
 	public static void setTrader(Map<String, Object> map) {
 		Traders = map;
+	}
+
+	public static Map<String, String> getTradersName() {
+		return TradersName;
+	}
+
+	public static void setTradersName(Map<String, String> tradersName) {
+		TradersName = tradersName;
 	}
 }

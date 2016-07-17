@@ -134,16 +134,17 @@ public class Main extends JavaPlugin {
 	}
 
 	/**
-	 * 
+	 * Save traders from memory to disk (currently config.yml)
 	 * @param log
 	 *            Boolean to determinte wherever to log info or not
 	 */
 	public void saveTraders(boolean log) {
 		Map<String, Object> Traders = Trader.getTrader();
+		Map<String, String> TradersNames = Trader.getTradersName();
 		if (Traders.size() != 0) { // Contains no traders
-
 			try {
 				this.getConfig().createSection("Traders", Traders);
+				this.getConfig().createSection("TraderNames", TradersNames);
 				if (log)
 					getLogger().info("All traders saved");
 			} catch (Exception e) {
@@ -159,12 +160,28 @@ public class Main extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Load the traders from disk to memory
+	 */
 	public void loadTraders() {
 		getConfig();
 		try {
 			Map<String, Object> map = this.getConfig().getConfigurationSection("Traders").getValues(false);
 			Trader.setTrader(map);
+			
+			/*
+			 * Convert a Map<String, Object> to Map<String,String>
+			 */
+			Map<String, Object> TradersNamesObject = this.getConfig().getConfigurationSection("TraderNames").getValues(false);
+			Map<String,String> TradersNamesString = new HashMap<String,String>();
+			for (Map.Entry<String, Object> entry : TradersNamesObject.entrySet()) {
+			       if(entry.getValue() instanceof String){
+			    	   TradersNamesString.put(entry.getKey(), (String) entry.getValue());
+			          }
+			 }
+			
+			Trader.setTradersName(TradersNamesString);
 			getLogger().info("Traders loaded");
 		} catch (NullPointerException e) {
 			getLogger().info("Could not find any traders to load");

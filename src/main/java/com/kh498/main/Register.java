@@ -42,7 +42,7 @@ public class Register {
 		Skript.registerEffect(EffTraderRemoveAll.class,
 				"(remove|clear|delete) all [merchant] traders");
 		Skript.registerEffect(EffTraderOpen.class, "(open|show) [merchant] trader %string% to %player%");
-		//Skript.registerEffect(EffTraderRename.class, "(rename|set name [of|for]) [merchant] trader %string% to %string%");
+		Skript.registerEffect(EffTraderRename.class, "(rename|set name [of|for]) [merchant] trader %string% to %string%");
 		if (debug)
 			Skript.registerEffect(EffTraderListPages.class,
 					"list all items (for|in) [merchant] trader %string% to %player%");

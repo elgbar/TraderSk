@@ -50,9 +50,6 @@ public class EffTraderRename extends Effect {
 
 	@Override
 	protected void execute(Event e) {
-		//NOT INCLUDED YET
-		return;
-		/*
 		String name = this.name.getSingle(e);
 		String trader = this.trader.getSingle(e);
 
@@ -65,7 +62,7 @@ public class EffTraderRename extends Effect {
 		} else {
 			Trader.TraderSetTitle(trader, name);
 			
-		}*/
+		}
 		
 	}
 
