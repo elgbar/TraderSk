@@ -539,7 +539,7 @@ public class Trader {
 		if (Traders.containsKey(trader)){
 			return true;
 		} else {
-			Skript.error("No trader found named " + trader, ErrorQuality.SEMANTIC_ERROR);
+			//Skript.error("No trader found named " + trader, ErrorQuality.SEMANTIC_ERROR);
 			return false;
 		}
 	}

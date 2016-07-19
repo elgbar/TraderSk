@@ -1,8 +1,6 @@
 name: TraderSk
-
 main: com.kh498.main.Main
-
-version: 1.2.3b
+version: 1.2.4
 
 description: Addon to Njol's Skript using Cybermaxke's MerchantsAPI to open merchant inventories within skript
 
