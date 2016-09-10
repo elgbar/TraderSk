@@ -38,6 +38,9 @@ public class TradeMerchant
 	public void saveMerchant(ConfigurationSection conf)
 	{
 		ConfigurationSection mainSection = ConfigManager.getSectionOrCreate(conf, internalName);
+		if (mainSection.contains("Items")){
+			mainSection.set("Items", null);
+		}
 		ConfigurationSection tradesSection = ConfigManager.getSectionOrCreate(mainSection, "Items");
 		
 		mainSection.set("DisplayName", displayName);

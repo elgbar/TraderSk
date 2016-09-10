@@ -133,7 +133,7 @@ public class Trader
 		{ // there is not page below 0
 			Skript.error("The requested page number is too low, it cannot be lower than 0");
 			return;
-		} else if (page > pages)
+		} else if (page >= pages)
 		{ // Requested page to remove is higher
 				// than nr of pages
 			Skript.error("The requested page number is too high, it cannot be higher than " + pages);
