@@ -23,45 +23,32 @@ import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
 
-import com.kh498.main.trader.TradeMerchant;
-import com.kh498.main.trader.Trader;
+import com.kh498.main.ConfigManager;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
-public class EffTraderRename extends Effect
+public class EffTraderSave extends Effect
 {
-	private Expression<String> trader;
-	private Expression<String> name;
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
-		trader = (Expression<String>) expr[0];
-		name = (Expression<String>) expr[1];
 		return true;
 	}
 
 	@Override
 	public String toString(@Nullable Event e, boolean bool)
 	{
-		return "Change the inventory title for a trader";
+		return "Saving all traders";
 	}
 
 	@Override
 	protected void execute(Event e)
 	{
-		String name = this.name.getSingle(e);
-		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
-
-		if (trader == null)
-		{ //Cannot trade with nothing
-			return;
-		}
-		trader.setDisplayName(name);
+		ConfigManager.saveTraders(false);
 	}
 
 }

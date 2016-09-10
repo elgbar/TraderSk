@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 package com.kh498.main.Eff;
 
 import org.bukkit.event.Event;
@@ -30,26 +30,30 @@ import ch.njol.util.Kleenean;
 
 import javax.annotation.Nullable;
 
-public class EffTraderCreate extends Effect {
+public class EffTraderCreate extends Effect
+{
 	private Expression<String> trader;
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2,
-			ParseResult arg3) {
+	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	{
 		this.trader = (Expression<String>) expr[0];
 		return true;
 	}
 
 	@Override
-	public String toString(@Nullable Event e, boolean bool) {
+	public String toString(@Nullable Event e, boolean bool)
+	{
 		return "Create a trader";
 	}
 
 	@Override
-	protected void execute(Event e) {
+	protected void execute(Event e)
+	{
 		String trader = this.trader.getSingle(e);
-		if (trader == null) {
+		if (trader == null)
+		{
 			return;
 		}
 		Trader.TraderNew(trader);
