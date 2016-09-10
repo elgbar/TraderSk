@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 package com.kh498.main.Eff;
 
 import javax.annotation.Nullable;
@@ -28,28 +28,33 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
+import com.kh498.main.trader.TradeMerchant;
 import com.kh498.main.trader.Trader;
 
-public class EffTraderRemove extends Effect {
+public class EffTraderRemove extends Effect
+{
 	private Expression<String> trader;
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2,
-			ParseResult arg3) {
+	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	{
 		trader = (Expression<String>) expr[0];
 		return true;
 	}
 
 	@Override
-	public String toString(@Nullable Event e, boolean bool) {
+	public String toString(@Nullable Event e, boolean bool)
+	{
 		return "Remove trader";
 	}
 
 	@Override
-	protected void execute(Event e) {
-		String trader = this.trader.getSingle(e);
-		if (trader == null) {
+	protected void execute(Event e)
+	{
+		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		if (trader == null)
+		{
 			return;
 		}
 		Trader.TraderRemove(trader);

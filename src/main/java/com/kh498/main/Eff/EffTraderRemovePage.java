@@ -16,13 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 package com.kh498.main.Eff;
 
 import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
 
+import com.kh498.main.trader.TradeMerchant;
 import com.kh498.main.trader.Trader;
 
 import ch.njol.skript.lang.Effect;
@@ -30,14 +31,15 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
-public class EffTraderRemovePage extends Effect {
+public class EffTraderRemovePage extends Effect
+{
 	private Expression<Number> page;
 	private Expression<String> trader;
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2,
-			ParseResult arg3) {
+	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	{
 
 		this.page = (Expression<Number>) expr[0];
 		this.trader = (Expression<String>) expr[1];
@@ -45,20 +47,24 @@ public class EffTraderRemovePage extends Effect {
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event arg0, boolean arg1)
+	{
 		return "Remove page from Trader";
 	}
 
 	@Override
-	protected void execute(Event e) {
-		Integer page  = this.page.getSingle(e).intValue();
-		String trader = this.trader.getSingle(e);
-		
-		if (page % 1 != 0){
+	protected void execute(Event e)
+	{
+		Integer page = this.page.getSingle(e).intValue();
+		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+
+		if (page % 1 != 0)
+		{
 			return;
 		}
-		
-		if (trader == null || page == null) {
+
+		if (trader == null || page == null)
+		{
 			return;
 		}
 		Trader.TraderRemovePage(trader, page);
