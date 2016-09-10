@@ -47,24 +47,24 @@ public class Util
 		Material itemType = item.getType();
 		switch (itemType)
 		{
-			//				case DOUBLE_STONE_SLAB2:
+			case DOUBLE_STONE_SLAB2:
 			case NETHER_WARTS:
-				//				case REDSTONE_COMPARATOR_ON:
-				//				case REDSTONE_COMPARATOR_OFF:
+			case REDSTONE_COMPARATOR_ON:
+			case REDSTONE_COMPARATOR_OFF:
 			case FLOWER_POT:
 			case TRIPWIRE:
-				//				case REDSTONE_LAMP_ON:
+			case REDSTONE_LAMP_ON:
 			case POTATO:
 			case CARROT:
-				//				case CAULDRON:
-				//				case BREWING_STAND:
-				//				case SKULL:
-				//				case WOODEN_DOOR:
-				//				case SPRUCE_DOOR:
-				//				case JUNGLE_DOOR:
-				//				case DARK_OAK_DOOR:
-				//				case ACACIA_DOOR:
-				//				case BIRCH_DOOR:
+			case CAULDRON:
+			case BREWING_STAND:
+			case SKULL:
+			case WOODEN_DOOR:
+			case SPRUCE_DOOR:
+			case JUNGLE_DOOR:
+			case DARK_OAK_DOOR:
+			case ACACIA_DOOR:
+			case BIRCH_DOOR:
 			case DIODE_BLOCK_ON:
 			case DIODE_BLOCK_OFF:
 			case CAKE_BLOCK:
