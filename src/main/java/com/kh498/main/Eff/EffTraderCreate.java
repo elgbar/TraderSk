@@ -19,6 +19,8 @@
 
 package com.kh498.main.Eff;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.event.Event;
 
 import com.kh498.main.trader.Trader;
@@ -27,8 +29,6 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
-
-import javax.annotation.Nullable;
 
 public class EffTraderCreate extends Effect
 {
@@ -51,7 +51,14 @@ public class EffTraderCreate extends Effect
 	@Override
 	protected void execute(Event e)
 	{
-		String trader = this.trader.getSingle(e);
+		String trader;
+		try
+		{
+			trader = this.trader.getSingle(e);
+		} catch (Exception ex)
+		{
+			return;
+		}
 		if (trader == null)
 		{
 			return;

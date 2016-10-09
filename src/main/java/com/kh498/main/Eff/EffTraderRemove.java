@@ -23,13 +23,13 @@ import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
 
+import com.kh498.main.trader.TradeMerchant;
+import com.kh498.main.trader.Trader;
+
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
-
-import com.kh498.main.trader.TradeMerchant;
-import com.kh498.main.trader.Trader;
 
 public class EffTraderRemove extends Effect
 {
@@ -52,7 +52,14 @@ public class EffTraderRemove extends Effect
 	@Override
 	protected void execute(Event e)
 	{
-		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		TradeMerchant trader;
+		try
+		{
+			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		} catch (Exception ex)
+		{
+			return;
+		}
 		if (trader == null)
 		{
 			return;

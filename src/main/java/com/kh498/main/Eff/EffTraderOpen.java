@@ -55,8 +55,16 @@ public class EffTraderOpen extends Effect
 	@Override
 	protected void execute(Event e)
 	{
-		Player player = this.player.getSingle(e);
-		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		Player player;
+		TradeMerchant trader;
+		try
+		{
+			player = this.player.getSingle(e);
+			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		} catch (Exception ex)
+		{
+			return;
+		}
 		if (trader == null || player == null)
 		{
 			return;

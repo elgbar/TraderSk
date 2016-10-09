@@ -54,8 +54,16 @@ public class EffTraderRename extends Effect
 	@Override
 	protected void execute(Event e)
 	{
-		String name = this.name.getSingle(e);
-		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		String name;
+		TradeMerchant trader;
+		try
+		{
+			name = this.name.getSingle(e);
+			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		} catch (Exception ex)
+		{
+			return;
+		}
 
 		if (trader == null)
 		{ //Cannot trade with nothing

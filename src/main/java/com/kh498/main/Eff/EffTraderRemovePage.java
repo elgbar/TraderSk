@@ -55,8 +55,16 @@ public class EffTraderRemovePage extends Effect
 	@Override
 	protected void execute(Event e)
 	{
-		Integer page = this.page.getSingle(e).intValue();
-		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		Integer page;
+		TradeMerchant trader;
+		try
+		{
+			page = this.page.getSingle(e).intValue();
+			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+		} catch (Exception ex)
+		{
+			return;
+		}
 
 		if (page % 1 != 0)
 		{

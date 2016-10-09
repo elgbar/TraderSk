@@ -24,13 +24,13 @@ import javax.annotation.Nullable;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
+import com.kh498.main.trader.TradeMerchant;
+import com.kh498.main.trader.Trader;
+
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
-
-import com.kh498.main.trader.TradeMerchant;
-import com.kh498.main.trader.Trader;
 
 public class EffTraderSetPage extends Effect
 {
@@ -61,7 +61,14 @@ public class EffTraderSetPage extends Effect
 	@Override
 	protected void execute(Event e)
 	{
-		Integer page = this.page.getSingle(e).intValue();
+		Integer page;
+		try
+		{
+			page = this.page.getSingle(e).intValue();
+		} catch (NullPointerException ex)
+		{
+			return;
+		}
 
 		if (page % 1 != 0)
 		{
