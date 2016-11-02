@@ -35,64 +35,70 @@ import me.cybermaxke.merchants.SMerchantPlugin;
 public class Main extends JavaPlugin
 {
 	private boolean enabled; //Used by onDisable to not save the traders if the plugin never fully enables
-	public String MCversion = Util.getNmsVersion(); //Minecraft server version
 	private static Plugin instance;
+	private final String APIversion = "1.4.0-SNAPSHOT"; // Interal API Merchants version
 
-	public static Plugin getInstance()
+	public static String CHAT_PREFIX;
+	public String MCversion = Util.getNmsVersion (); //Minecraft server version
+
+	public static Plugin getInstance ()
 	{
 		return instance;
 	}
 
-	@Override
-	public void onEnable()
+	@ Override
+	public void onEnable ()
 	{
-		if (Bukkit.getPluginManager().getPlugin("Skript") == null)
+		CHAT_PREFIX = "[" + this.getName () + "] ";
+		if (Bukkit.getPluginManager ().getPlugin ("Skript") == null)
 		{
-			this.getServer().getConsoleSender().sendMessage("[" + this.getName() + "] " + ChatColor.RED
-					+ "Could not enable the plugin! This is an addon to Skript by Njol and cannot function without it.");
-			getServer().getPluginManager().disablePlugin(this);
+			this.getServer ().getConsoleSender ().sendMessage (
+					CHAT_PREFIX + ChatColor.RED + "Could not enable the plugin! This is an addon to Skript by Njol and cannot function without it.");
+			getServer ().getPluginManager ().disablePlugin (this);
 			return;
 		}
 
 		instance = this;
 
-		ConfigManager.load(this);
+		TraderConfigManager.init (this);
+		MainConfigManager.init (this);
 
 		boolean versionMatch;
 
 		boolean register = false;
 		boolean oldVersion = false;
-		String APIversion = "1.4.0-SNAPSHOT"; // Interal API Merchants version
+
 		/*
 		 * returns true if you have the plugin Merchants and false if not
 		 */
-		boolean hasMerchants = Bukkit.getPluginManager().getPlugin("Merchants") != null;
+		boolean hasMerchants = Bukkit.getPluginManager ().getPlugin ("Merchants") != null;
 
 		/*
 		 * if you're using an older version of the API and the server runs on an internally supported version then use the internal version.
 		 */
 		if (hasMerchants)
 		{
-			String externalVer = Bukkit.getPluginManager().getPlugin("Merchants").getDescription().getVersion();
+			String externalVer = Bukkit.getPluginManager ().getPlugin ("Merchants").getDescription ().getVersion ();
 
 			// all old versions found on GitHub.com/Cybermaxke/MerchantsAPI
-			if ("1.3.0-SNAPSHOT".equals(externalVer) || "1.2.0-SNAPSHOT".equals(externalVer) || "1.2-SNAPSHOT".equals(externalVer)
-					|| "1.1.1-SNAPSHOT".equals(externalVer) || "1.1.0-SNAPSHOT".equals(externalVer) || "1.0.1-SNAPSHOT".equals(externalVer)
-					|| "1.0.0-SNAPSHOT".equals(externalVer))
+			if ("1.3.0-SNAPSHOT".equals (externalVer) || "1.2.0-SNAPSHOT".equals (externalVer) || "1.2-SNAPSHOT".equals (externalVer)
+					|| "1.1.1-SNAPSHOT".equals (externalVer) || "1.1.0-SNAPSHOT".equals (externalVer) || "1.0.1-SNAPSHOT".equals (externalVer)
+					|| "1.0.0-SNAPSHOT".equals (externalVer))
 			{
 				//Only use internal version if the server runs a supported version
-				if ("v18r3".equals(MCversion) || "v19r2".equals(MCversion) || "v110r1".equals(MCversion))
+				if ("v18r3".equals (MCversion) || "v19r2".equals (MCversion) || "v110r1".equals (MCversion))
 				{ //TODO add universal support, so it's easier to maintain
 						//disable Merchants plugin
-					Plugin plugin = Bukkit.getPluginManager().getPlugin("Merchants");
-					getServer().getPluginManager().disablePlugin(plugin);
+					Plugin plugin = Bukkit.getPluginManager ().getPlugin ("Merchants");
+					getServer ().getPluginManager ().disablePlugin (plugin);
 					oldVersion = true; //let the rest of the progam that the external version was old
 
-					getLogger().info("Found plugins Merchants but its using an old version of the API (" + externalVer
+					getLogger ().info ("Found plugins Merchants but its using an old version of the API (" + externalVer
 							+ "). The plugin will be disabled and an internal, newer version (" + APIversion + "), will be used in it's place.");
 				} else
 				{
-					getLogger().info("Found plugins Merchants but its using an old version of the API (" + externalVer + "). Consider updating it.");
+					getLogger ()
+							.info ("Found plugins Merchants but its using an old version of the API (" + externalVer + "). Consider updating it.");
 
 				}
 			}
@@ -100,60 +106,60 @@ public class Main extends JavaPlugin
 
 		if (!hasMerchants || oldVersion)
 		{
-			SMerchantPlugin SMerchantPlugin = new SMerchantPlugin(this);
-			versionMatch = SMerchantPlugin.Enable();
+			SMerchantPlugin SMerchantPlugin = new SMerchantPlugin (this);
+			versionMatch = SMerchantPlugin.Enable ();
 			if (!hasMerchants && versionMatch)
 			{
-				getLogger().info(
+				getLogger ().info (
 						"Could not find plugin Merchants, using internal API version " + APIversion + " with minecraft server version " + MCversion);
 			}
 		} else
 		{
 			versionMatch = true;
-			getLogger().info("Found Merchants, using it's version");
+			getLogger ().info ("Found Merchants, using it's version");
 		}
 
 		if (versionMatch)
 		{
-			Skript.registerAddon(this);
-			if (Skript.isAcceptRegistrations())
+			Skript.registerAddon (this);
+			if (Skript.isAcceptRegistrations ())
 			{
-				register = Register.RegisterMerchants(); // enable Merchants effect
+				register = Register.RegisterMerchants (); // enable Merchants effect
 				try
 				{
-					ConfigManager.loadTraders();
+					TraderConfigManager.loadTraders ();
 				} catch (NullPointerException e)
 				{
-					getLogger().warning(
+					getLogger ().warning (
 							"Could not load traders due to you possibly using an old version of the config file! to fix this simply delete the config.yml in /plugins/tradersk/");
-					e.printStackTrace(); //get their attention
+					e.printStackTrace (); //get their attention
 				}
 			} else
 			{
-				Skript.error("Could not register effects as skript is not accepting registrations.");
+				Skript.error ("Could not register effects as skript is not accepting registrations.");
 				register = false;
 			}
 		}
 		if (!register || !versionMatch)
 		{
-			this.getServer().getConsoleSender()
-					.sendMessage("[" + this.getName() + "] " + ChatColor.RED
-							+ "Could not enable the plugin! Due to no interal support for minecraft version " + MCversion
-							+ "! Please use the plugin Merchants by cybermaxke if you want to use this addon.");
-			getServer().getPluginManager().disablePlugin(this);
+			this.getServer ().getConsoleSender ()
+					.sendMessage (CHAT_PREFIX + ChatColor.RED + "Could not enable the plugin! Due to no interal support for minecraft version "
+							+ MCversion + "! Please use the plugin Merchants by cybermaxke if you want to use this addon.");
+			getServer ().getPluginManager ().disablePlugin (this);
 			return;
 		} else
 		{
-			getLogger().info("Merchants effects added!");
-			getLogger().info("Enabled ~ Created by kh498");
+			getLogger ().info ("Merchants effects added!");
+			getLogger ().info ("Enabled ~ Created by kh498");
 			enabled = true;
 		}
 	}
 
-	@Override
-	public void onDisable()
+	@ Override
+	public void onDisable ()
 	{
 		if (enabled)
-			ConfigManager.saveTraders(true);
+			TraderConfigManager.saveTraders (true);
+
 	}
 }

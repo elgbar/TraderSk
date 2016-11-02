@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
 
-import com.kh498.main.ConfigManager;
+import com.kh498.main.TraderConfigManager;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
@@ -33,22 +33,22 @@ import ch.njol.util.Kleenean;
 public class EffTraderSave extends Effect
 {
 
-	@Override
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event e, boolean bool)
+	@ Override
+	public String toString (@ Nullable Event e, boolean bool)
 	{
 		return "Saving all traders";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
-		ConfigManager.saveTraders(false);
+		TraderConfigManager.saveTraders (false);
 	}
 
 }

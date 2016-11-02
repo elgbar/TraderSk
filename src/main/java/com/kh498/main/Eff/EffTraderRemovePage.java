@@ -36,9 +36,9 @@ public class EffTraderRemovePage extends Effect
 	private Expression<Number> page;
 	private Expression<String> trader;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	@ SuppressWarnings ("unchecked")
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 
 		this.page = (Expression<Number>) expr[0];
@@ -46,21 +46,21 @@ public class EffTraderRemovePage extends Effect
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event arg0, boolean arg1)
+	@ Override
+	public String toString (@ Nullable Event arg0, boolean arg1)
 	{
 		return "Remove page from Trader";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
 		Integer page;
 		TradeMerchant trader;
 		try
 		{
-			page = this.page.getSingle(e).intValue();
-			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+			page = this.page.getSingle (e).intValue ();
+			trader = Trader.getTradeMerchant (this.trader.getSingle (e));
 		} catch (Exception ex)
 		{
 			return;
@@ -75,7 +75,7 @@ public class EffTraderRemovePage extends Effect
 		{
 			return;
 		}
-		Trader.TraderRemovePage(trader, page);
+		Trader.TraderRemovePage (trader, page);
 
 	}
 

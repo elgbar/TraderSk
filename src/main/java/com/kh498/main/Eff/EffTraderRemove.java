@@ -35,27 +35,27 @@ public class EffTraderRemove extends Effect
 {
 	private Expression<String> trader;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	@ SuppressWarnings ("unchecked")
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		trader = (Expression<String>) expr[0];
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event e, boolean bool)
+	@ Override
+	public String toString (@ Nullable Event e, boolean bool)
 	{
 		return "Remove trader";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
 		TradeMerchant trader;
 		try
 		{
-			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+			trader = Trader.getTradeMerchant (this.trader.getSingle (e));
 		} catch (Exception ex)
 		{
 			return;
@@ -64,7 +64,7 @@ public class EffTraderRemove extends Effect
 		{
 			return;
 		}
-		Trader.TraderRemove(trader);
+		Trader.TraderRemove (trader);
 	}
 
 }

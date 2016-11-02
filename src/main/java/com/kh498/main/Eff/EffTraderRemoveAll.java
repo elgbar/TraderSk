@@ -33,22 +33,22 @@ import ch.njol.util.Kleenean;
 public class EffTraderRemoveAll extends Effect
 {
 
-	@Override
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event e, boolean bool)
+	@ Override
+	public String toString (@ Nullable Event e, boolean bool)
 	{
 		return "Removing all traders";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
-		Trader.TraderRemoveAll();
+		Trader.TraderRemoveAll ();
 
 	}
 

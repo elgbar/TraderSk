@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import com.kh498.main.trader.Trader;
+import com.kh498.main.MainConfigManager;
 
 import ch.njol.skript.Skript;
 
@@ -15,11 +15,11 @@ public class Util
 	/**
 	 * @return The current Net Minecraft Server version, or <tt>unknown</tt> if it cannot find the version (this happens previous to 1.4)
 	 */
-	public static String getNmsVersion()
+	public static String getNmsVersion ()
 	{
-		String version = Bukkit.getServer().getClass().getPackage().getName().replace("org.bukkit.craftbukkit", "").replaceFirst(".", "");
-		version = version.replace("_", "").toLowerCase();
-		if (version.isEmpty())
+		String version = Bukkit.getServer ().getClass ().getPackage ().getName ().replace ("org.bukkit.craftbukkit", "").replaceFirst (".", "");
+		version = version.replace ("_", "").toLowerCase ();
+		if (version.isEmpty ())
 		{
 			version = "unknown";
 		}
@@ -35,16 +35,16 @@ public class Util
 	 *            Wherever the itemstack can be null
 	 * @return True if it is valid, false if not
 	 */
-	public static boolean isValidMaterial(ItemStack item, boolean canBeNull)
+	public static boolean isValidMaterial (ItemStack item, boolean canBeNull)
 	{
 		if (item == null)
 		{
-			if (Trader.debug)
-				Skript.error("Material was null when validating it");
+			if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+				Skript.error ("Material was null when validating it");
 			return canBeNull;
 		}
 		// below is list of illegal materials
-		Material itemType = item.getType();
+		Material itemType = item.getType ();
 		switch (itemType)
 		{
 			case DOUBLE_STONE_SLAB2:
@@ -85,7 +85,7 @@ public class Util
 			case BED_BLOCK:
 			case MELON_STEM:
 			case FIRE:
-				Skript.error("Illegal material for one of the items '" + item.getType() + "'");
+				Skript.error ("Illegal material for one of the items '" + item.getType () + "'");
 				return false;
 			default:
 				/* falls through */
@@ -101,9 +101,9 @@ public class Util
 	 *            List of traders
 	 * @return Number of pages
 	 */
-	public static int getPages(List<ItemStack> list)
+	public static int getPages (List<ItemStack> list)
 	{
-		return Math.floorDiv(list.size() + 1, 3); // + 1 since the list starts
+		return Math.floorDiv (list.size () + 1, 3); // + 1 since the list starts
 													// at zero
 	}
 }

@@ -36,30 +36,30 @@ public class EffTraderRename extends Effect
 	private Expression<String> trader;
 	private Expression<String> name;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	@ SuppressWarnings ("unchecked")
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		trader = (Expression<String>) expr[0];
 		name = (Expression<String>) expr[1];
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event e, boolean bool)
+	@ Override
+	public String toString (@ Nullable Event e, boolean bool)
 	{
 		return "Change the inventory title for a trader";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
 		String name;
 		TradeMerchant trader;
 		try
 		{
-			name = this.name.getSingle(e);
-			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+			name = this.name.getSingle (e);
+			trader = Trader.getTradeMerchant (this.trader.getSingle (e));
 		} catch (Exception ex)
 		{
 			return;
@@ -69,7 +69,7 @@ public class EffTraderRename extends Effect
 		{ //Cannot trade with nothing
 			return;
 		}
-		trader.setDisplayName(name);
+		trader.setDisplayName (name);
 	}
 
 }

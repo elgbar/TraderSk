@@ -40,9 +40,9 @@ public class EffTraderSetPage extends Effect
 	private Expression<ItemStack> item1;
 	private Expression<ItemStack> item2;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	@ SuppressWarnings ("unchecked")
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		page = (Expression<Number>) expr[0];
 		trader = (Expression<String>) expr[1];
@@ -52,19 +52,19 @@ public class EffTraderSetPage extends Effect
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event arg0, boolean arg1)
+	@ Override
+	public String toString (@ Nullable Event arg0, boolean arg1)
 	{
 		return "Set page in trader";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
 		Integer page;
 		try
 		{
-			page = this.page.getSingle(e).intValue();
+			page = this.page.getSingle (e).intValue ();
 		} catch (NullPointerException ex)
 		{
 			return;
@@ -75,15 +75,15 @@ public class EffTraderSetPage extends Effect
 			return;
 		}
 
-		TradeMerchant trader = Trader.getTradeMerchant(this.trader.getSingle(e));
-		ItemStack item0 = this.item0.getSingle(e);
-		ItemStack item1 = this.item1.getSingle(e);
+		TradeMerchant trader = Trader.getTradeMerchant (this.trader.getSingle (e));
+		ItemStack item0 = this.item0.getSingle (e);
+		ItemStack item1 = this.item1.getSingle (e);
 		ItemStack item2;
 
 		// page2 can be null
 		try
 		{
-			item2 = this.item2.getSingle(e);
+			item2 = this.item2.getSingle (e);
 		} catch (NullPointerException ex)
 		{
 			item2 = null;
@@ -93,7 +93,7 @@ public class EffTraderSetPage extends Effect
 		{
 			return;
 		}
-		Trader.TraderSetPage(trader, page, item0, item1, item2);
+		Trader.TraderSetPage (trader, page, item0, item1, item2);
 	}
 
 }

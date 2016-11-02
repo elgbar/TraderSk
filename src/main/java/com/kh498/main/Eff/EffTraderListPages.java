@@ -37,30 +37,30 @@ public class EffTraderListPages extends Effect
 	private Expression<Player> player;
 	private Expression<String> trader;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	@ SuppressWarnings ("unchecked")
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		trader = (Expression<String>) expr[0];
 		player = (Expression<Player>) expr[1];
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event e, boolean bool)
+	@ Override
+	public String toString (@ Nullable Event e, boolean bool)
 	{
 		return "List all items for a trader";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
 		Player player;
 		TradeMerchant trader;
 		try
 		{
-			player = this.player.getSingle(e);
-			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+			player = this.player.getSingle (e);
+			trader = Trader.getTradeMerchant (this.trader.getSingle (e));
 		} catch (Exception ex)
 		{
 			return;
@@ -70,14 +70,14 @@ public class EffTraderListPages extends Effect
 			return;
 		} else if (trader == null)
 		{
-			player.sendMessage("Could not find the trader. Here is a list of all traders:");
-			for (TradeMerchant t : Trader.getTraders().values())
+			player.sendMessage ("Could not find the trader. Here is a list of all traders:");
+			for (TradeMerchant t : Trader.getTraders ().values ())
 			{
-				player.sendMessage(t.getInternalName());
+				player.sendMessage (t.getInternalName ());
 			}
 			return;
 		}
-		Trader.TraderListPages(trader, player);
+		Trader.TraderListPages (trader, player);
 	}
 
 }

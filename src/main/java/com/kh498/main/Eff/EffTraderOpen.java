@@ -37,30 +37,30 @@ public class EffTraderOpen extends Effect
 	private Expression<Player> player;
 	private Expression<String> trader;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	@ SuppressWarnings ("unchecked")
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		trader = (Expression<String>) expr[0];
 		player = (Expression<Player>) expr[1];
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event e, boolean bool)
+	@ Override
+	public String toString (@ Nullable Event e, boolean bool)
 	{
 		return "Open Trader GUI to player";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
 		Player player;
 		TradeMerchant trader;
 		try
 		{
-			player = this.player.getSingle(e);
-			trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+			player = this.player.getSingle (e);
+			trader = Trader.getTradeMerchant (this.trader.getSingle (e));
 		} catch (Exception ex)
 		{
 			return;
@@ -69,7 +69,7 @@ public class EffTraderOpen extends Effect
 		{
 			return;
 		}
-		Trader.TraderOpen(trader, player);
+		Trader.TraderOpen (trader, player);
 	}
 
 }

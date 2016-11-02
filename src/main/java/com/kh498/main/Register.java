@@ -19,9 +19,17 @@
 
 package com.kh498.main;
 
-import ch.njol.skript.Skript;
+import com.kh498.main.Eff.EffTraderCreate;
+import com.kh498.main.Eff.EffTraderListPages;
+import com.kh498.main.Eff.EffTraderOpen;
+import com.kh498.main.Eff.EffTraderRemove;
+import com.kh498.main.Eff.EffTraderRemoveAll;
+import com.kh498.main.Eff.EffTraderRemovePage;
+import com.kh498.main.Eff.EffTraderRename;
+import com.kh498.main.Eff.EffTraderSave;
+import com.kh498.main.Eff.EffTraderSetPage;
 
-import com.kh498.main.Eff.*;
+import ch.njol.skript.Skript;
 
 /**
  * @author kh498
@@ -29,21 +37,20 @@ import com.kh498.main.Eff.*;
 public class Register
 {
 
-	public static boolean RegisterMerchants()
+	public static boolean RegisterMerchants ()
 	{
-		final boolean debug = false;
 
-		Skript.registerEffect(EffTraderCreate.class, "(create|make) [a] [merchant] trader [named] %string%");
-		Skript.registerEffect(EffTraderRemove.class, "(remove|clear) [the] [merchant] trader [named] %string%");
-		Skript.registerEffect(EffTraderSetPage.class,
+		Skript.registerEffect (EffTraderCreate.class, "(create|make) [a] [merchant] trader [named] %string%");
+		Skript.registerEffect (EffTraderRemove.class, "(remove|clear) [the] [merchant] trader [named] %string%");
+		Skript.registerEffect (EffTraderSetPage.class,
 				"set items in page %number% (for|of) [merchant] trader %string% to %itemstack% as output[ item](,| and) %itemstack%[ and %-itemstack%] as input[ item[s]]");
-		Skript.registerEffect(EffTraderRemovePage.class, "(remove|clear|delete) page %number% (from|of|for) [merchant] trader %string%");
-		Skript.registerEffect(EffTraderRemoveAll.class, "(remove|clear|delete) all [merchant] traders");
-		Skript.registerEffect(EffTraderOpen.class, "(open|show) [merchant] trader %string% to %player%");
-		Skript.registerEffect(EffTraderRename.class, "(rename|set name [of|for]) [merchant] trader %string% to %string%");
-		Skript.registerEffect(EffTraderSave.class, "save all [merchant] trader[s]");
-		if (debug)
-			Skript.registerEffect(EffTraderListPages.class, "list all items for trader %string% to %player%");
+		Skript.registerEffect (EffTraderRemovePage.class, "(remove|clear|delete) page %number% (from|of|for) [merchant] trader %string%");
+		Skript.registerEffect (EffTraderRemoveAll.class, "(remove|clear|delete) all [merchant] traders");
+		Skript.registerEffect (EffTraderOpen.class, "(open|show) [merchant] trader %string% to %player%");
+		Skript.registerEffect (EffTraderRename.class, "(rename|set name [of|for]) [merchant] trader %string% to %string%");
+		Skript.registerEffect (EffTraderSave.class, "save all [merchant] trader[s]");
+		if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+			Skript.registerEffect (EffTraderListPages.class, "list all items for trader %string% to %player%");
 		return true;
 	}
 }

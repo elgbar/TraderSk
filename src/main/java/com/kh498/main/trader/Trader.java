@@ -32,7 +32,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.kh498.main.ConfigManager;
+import com.kh498.main.MainConfigManager;
+import com.kh498.main.TraderConfigManager;
 import com.kh498.main.util.Util;
 
 import ch.njol.skript.Skript;
@@ -43,21 +44,20 @@ import me.cybermaxke.merchants.api.Merchants;
 
 public class Trader
 {
-	private static Map<String, TradeMerchant> traders = new HashMap<String, TradeMerchant>();
-	public final static boolean debug = false;
+	private static Map<String, TradeMerchant> traders = new HashMap<String, TradeMerchant> ();
 
-	public static TradeMerchant getTradeMerchant(String name)
+	public static TradeMerchant getTradeMerchant (String name)
 	{
-		return (traders.get(name) != null) ? traders.get(name) : null;
+		return (traders.get (name) != null) ? traders.get (name) : null;
 	}
 
 	/**
 	 * @param trader
 	 *            Name of trader
 	 */
-	public static void TraderNew(String traderName)
+	public static void TraderNew (String traderName)
 	{
-		traders.put(traderName, new TradeMerchant(traderName, null));
+		traders.put (traderName, new TradeMerchant (traderName, null));
 	}
 
 	/**
@@ -67,21 +67,21 @@ public class Trader
 	 *            Display name of trader
 	 */
 
-	public static void TraderSetTitle(TradeMerchant trader, String name)
+	public static void TraderSetTitle (TradeMerchant trader, String name)
 	{
-		checkNotNull(name, "name");
-		checkNotNull(trader);
+		checkNotNull (name, "name");
+		checkNotNull (trader);
 		//Don't change the name if it is the same
-		String oldName = trader.getDisplayName();
+		String oldName = trader.getDisplayName ();
 		if (oldName != null)
 		{
-			if (oldName.equals(name))
+			if (oldName.equals (name))
 			{
 				return;
 			}
 		}
 
-		trader.setDisplayName(name);
+		trader.setDisplayName (name);
 		// Save trades to disk
 	}
 
@@ -91,22 +91,22 @@ public class Trader
 	 * @param trader
 	 *            Name of trader
 	 */
-	public static void TraderRemove(TradeMerchant trader)
+	public static void TraderRemove (TradeMerchant trader)
 	{
-		checkNotNull(trader);
-		if (traders.containsKey(trader.getInternalName()))
+		checkNotNull (trader);
+		if (traders.containsKey (trader.getInternalName ()))
 		{
-			ConfigManager.removeTrader(trader);
-			traders.remove(trader.getInternalName());
+			TraderConfigManager.removeTrader (trader);
+			traders.remove (trader.getInternalName ());
 		}
 	}
 
 	/**
 	 * Removes all traders from memory and disk.
 	 */
-	public static void TraderRemoveAll()
+	public static void TraderRemoveAll ()
 	{
-		traders.clear(); //clear trader list from memory
+		traders.clear (); //clear trader list from memory
 	}
 
 	/**
@@ -117,26 +117,26 @@ public class Trader
 	 * @param page
 	 *            What page to remove
 	 */
-	public static void TraderRemovePage(TradeMerchant trader, int page)
+	public static void TraderRemovePage (TradeMerchant trader, int page)
 	{
-		checkNotNull(trader);
-		List<ItemStack> list = trader.getTrades();
+		checkNotNull (trader);
+		List<ItemStack> list = trader.getTrades ();
 
-		if (list.isEmpty())
+		if (list.isEmpty ())
 		{
 			return;
 		} // return if there is nothing to remove
 
-		int pages = Util.getPages(list);
+		int pages = Util.getPages (list);
 		//TODO >= & below 1
 		if (0 > page)
 		{ // there is not page below 0
-			Skript.error("The requested page number is too low, it cannot be lower than 0");
+			Skript.error ("The requested page number is too low, it cannot be lower than 0");
 			return;
 		} else if (page >= pages)
 		{ // Requested page to remove is higher
 				// than nr of pages
-			Skript.error("The requested page number is too high, it cannot be higher than " + pages);
+			Skript.error ("The requested page number is too high, it cannot be higher than " + pages);
 			return;
 		}
 		// set the proper page (as there is 3 items per page)
@@ -144,25 +144,25 @@ public class Trader
 
 		if (pages <= 0)
 		{ // clear the list if there are no pages
-			list.clear();
+			list.clear ();
 			return;
 		}
-		if (debug)
+		if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
 		{
-			Skript.error("Going to remove: " + list.get(page) + ", " + list.get(page + 1) + " and " + list.get(page + 2));
-			Skript.error("before: " + list);
+			Skript.error ("Going to remove: " + list.get (page) + ", " + list.get (page + 1) + " and " + list.get (page + 2));
+			Skript.error ("before: " + list);
 		}
 		// remove the item from array
 		for (int i = 2; i >= 0; i--)
 		{
-			list.remove(page + i);
+			list.remove (page + i);
 		}
 
 		// save items to disk
-		trader.setTrades(list);
+		trader.setTrades (list);
 
-		if (debug)
-			Skript.error("after:  " + list);
+		if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+			Skript.error ("after:  " + list);
 
 	}
 
@@ -180,28 +180,28 @@ public class Trader
 	 * @param item2
 	 *            Item set in the secound in slot, can be null
 	 */
-	public static void TraderSetPage(TradeMerchant trader, int page, ItemStack item0, ItemStack item1, @Nullable ItemStack item2)
+	public static void TraderSetPage (TradeMerchant trader, int page, ItemStack item0, ItemStack item1, @ Nullable ItemStack item2)
 	{
-		checkNotNull(trader);
+		checkNotNull (trader);
 		//get the list of traders
-		List<ItemStack> list = trader.getTrades();
+		List<ItemStack> list = trader.getTrades ();
 
 		// Only accept pages that are higher or equal to 0
 		if (0 > page)
 		{
-			Skript.error("The requested page number is too low, it cannot be lower than 0");
+			Skript.error ("The requested page number is too low, it cannot be lower than 0");
 			return;
 
 		} else if (page != 0)
 		{
 			try
 			{
-				list.get(page - 1); // this is just a test to check if there
+				list.get (page - 1); // this is just a test to check if there
 									// is a page previous to the requested
 									// page
 			} catch (IndexOutOfBoundsException e)
 			{
-				Skript.error("Could not add items to page " + page + " as there are no items in the previous page.");
+				Skript.error ("Could not add items to page " + page + " as there are no items in the previous page.");
 				return;
 			}
 		}
@@ -220,11 +220,11 @@ public class Trader
 		}
 
 		// Check if any of the items are invalid
-		if (!Util.isValidMaterial(item0, false) || !Util.isValidMaterial(item1, false) || !Util.isValidMaterial(item2, true)
-				|| !Util.isValidMaterial(itemIn, true))
+		if (!Util.isValidMaterial (item0, false) || !Util.isValidMaterial (item1, false) || !Util.isValidMaterial (item2, true)
+				|| !Util.isValidMaterial (itemIn, true))
 		{
-			if (debug)
-				Skript.error("Invalid material");
+			if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+				Skript.error ("Invalid material");
 			return;
 		}
 
@@ -240,7 +240,7 @@ public class Trader
 		 */
 		try
 		{
-			itemOUT = "" + list.get(page);
+			itemOUT = "" + list.get (page);
 			mode = "set";
 		} catch (IndexOutOfBoundsException e)
 		{
@@ -249,38 +249,38 @@ public class Trader
 		}
 
 		// debug output on the trade
-		if (debug)
+		if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
 		{
-			int pages = Util.getPages(list);
+			int pages = Util.getPages (list);
 			try
 			{
-				itemIN1 = "" + list.get(page + 1);
+				itemIN1 = "" + list.get (page + 1);
 			} catch (IndexOutOfBoundsException e)
 			{
 				itemIN1 = "NONE";
 			}
 			try
 			{
-				itemIN2 = "" + list.get(page + 2);
+				itemIN2 = "" + list.get (page + 2);
 			} catch (IndexOutOfBoundsException e)
 			{
 				itemIN2 = "NONE";
 			}
-			System.out.println("itemOUT: " + itemOUT + " | itemIN1: " + itemIN1 + " | itemIN2: " + itemIN2 + "\nitem0: " + item0 + " item1: " + item1
-					+ " item2: " + item2 + " itemIn: " + itemIn + "\nindex: " + page + " size: " + list.size() + " pages: " + pages);
+			System.out.println ("itemOUT: " + itemOUT + " | itemIN1: " + itemIN1 + " | itemIN2: " + itemIN2 + "\nitem0: " + item0 + " item1: " + item1
+					+ " item2: " + item2 + " itemIn: " + itemIn + "\nindex: " + page + " size: " + list.size () + " pages: " + pages);
 
-			Skript.error("itemOUT: " + itemOUT + "itemIN1: " + itemIN1 + "itemIN2: " + itemIN2 + " | index: " + page);
+			Skript.error ("itemOUT: " + itemOUT + "itemIN1: " + itemIN1 + "itemIN2: " + itemIN2 + " | index: " + page);
 		}
 		if (mode == "set")
 		{
-			list.set(page, item0); // set the output item
-			if (debug)
-				Skript.error("item0: set");
+			list.set (page, item0); // set the output item
+			if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+				Skript.error ("item0: set");
 		} else
 		{ // mode is add
-			if (debug)
-				Skript.error("item0: add");
-			list.add(item0); // set the output item
+			if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+				Skript.error ("item0: add");
+			list.add (item0); // set the output item
 
 		}
 		/*
@@ -289,38 +289,38 @@ public class Trader
 
 		if (itemIn != null)
 		{
-			ItemStack air = new ItemStack(Material.AIR);
+			ItemStack air = new ItemStack (Material.AIR);
 			if (mode == "set")
 			{
-				if (debug)
-					Skript.error("itemIn: set");
-				list.set(page + 1, itemIn);
-				list.set(page + 2, air); // removes item
+				if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+					Skript.error ("itemIn: set");
+				list.set (page + 1, itemIn);
+				list.set (page + 2, air); // removes item
 			} else
 			{
-				if (debug)
-					Skript.error("itemIn: add");
-				list.add(itemIn);
-				list.add(air); // removes item
+				if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+					Skript.error ("itemIn: add");
+				list.add (itemIn);
+				list.add (air); // removes item
 
 			}
 		} else
 		{
 			if (mode == "set")
 			{
-				if (debug)
-					Skript.error("item1: set");
-				list.set(page + 1, item1);
-				list.set(page + 2, item2);
+				if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+					Skript.error ("item1: set");
+				list.set (page + 1, item1);
+				list.set (page + 2, item2);
 			} else
 			{
-				if (debug)
-					Skript.error("item2: add");
-				list.add(item1);
-				list.add(item2);
+				if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+					Skript.error ("item2: add");
+				list.add (item1);
+				list.add (item2);
 			}
 		}
-		trader.setTrades(list);
+		trader.setTrades (list);
 	}
 
 	/**
@@ -336,36 +336,36 @@ public class Trader
 	 * @param player
 	 *            Player to send text to
 	 */
-	public static void TraderListPages(TradeMerchant trader, Player player)
+	public static void TraderListPages (TradeMerchant trader, Player player)
 	{
-		checkNotNull(trader);
+		checkNotNull (trader);
 
-		List<ItemStack> list = trader.getTrades();
-		int pages = Util.getPages(list);
+		List<ItemStack> list = trader.getTrades ();
+		int pages = Util.getPages (list);
 		String ShowItem0, ShowItem1, ShowItem2;
 		ShowItem0 = ShowItem1 = ShowItem2 = "empty";
 		ItemStack item0, item1, item2;
-		player.sendMessage(ChatColor.GOLD + "Trader " + trader.getDisplayName() + "'s items");
-		player.sendMessage(ChatColor.GRAY + "There are " + pages + " page(s):");
+		player.sendMessage (ChatColor.GOLD + "Trader " + trader.getDisplayName () + "'s (internal name: '" + trader.getInternalName () + "') items");
+		player.sendMessage (ChatColor.GRAY + "There are " + pages + " page(s):");
 		for (int i = 0; i < pages; i++)
 		{
 			int page = i * 3;
-			item0 = list.get(page);
-			item1 = list.get(page + 1);
-			item2 = list.get(page + 2);
-			if (Util.isValidMaterial(item0, false))
+			item0 = list.get (page);
+			item1 = list.get (page + 1);
+			item2 = list.get (page + 2);
+			if (Util.isValidMaterial (item0, false))
 			{
-				ShowItem0 = item0.getType().toString().toLowerCase();
+				ShowItem0 = item0.getType ().toString ().toLowerCase ();
 			}
-			if (Util.isValidMaterial(item1, false))
+			if (Util.isValidMaterial (item1, false))
 			{
-				ShowItem1 = item1.getType().toString().toLowerCase();
+				ShowItem1 = item1.getType ().toString ().toLowerCase ();
 			}
-			if (Util.isValidMaterial(item2, true))
+			if (Util.isValidMaterial (item2, true))
 			{
-				ShowItem2 = item2.getType().toString().toLowerCase();
+				ShowItem2 = item2.getType ().toString ().toLowerCase ();
 			}
-			player.sendMessage(ChatColor.YELLOW + "" + i + ": " + ShowItem0 + ", " + ShowItem1 + " and " + ShowItem2);
+			player.sendMessage (ChatColor.YELLOW + "" + i + ": " + ShowItem0 + ", " + ShowItem1 + " and " + ShowItem2);
 		}
 	}
 
@@ -377,37 +377,38 @@ public class Trader
 	 * @param player
 	 *            Player to open the merchant to
 	 */
-	public static void TraderOpen(TradeMerchant trader, Player player)
+	public static void TraderOpen (TradeMerchant trader, Player player)
 	{
 		// The trader exist
-		checkNotNull(trader);
+		checkNotNull (trader);
 
 		// list over all items for this trader
-		List<ItemStack> list = trader.getTrades();
+		List<ItemStack> list = trader.getTrades ();
 
 		// if there is no items, do not open the trader
-		if (list.size() == 0)
+		if (list.size () == 0)
 		{
-			return;
+			if (!MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.OPEN_EMPTY_PATH))
+				return;
 		}
 
 		ItemStack item0, item1, item2;
 		int page;
-		int pages = Util.getPages(list);
+		int pages = Util.getPages (list);
 
-		if (debug)
-			Skript.error("" + pages + " | " + list.size());
+		if (MainConfigManager.getMainConfig ().getBoolean (MainConfigManager.DEBUG_PATH))
+			Skript.error ("" + pages + " | " + list.size ());
 
 		// create merchant
-		MerchantAPI api = Merchants.get();
+		MerchantAPI api = Merchants.get ();
 		Merchant merchant;
 		try
 		{
-			merchant = api.newMerchant(trader.getDisplayName());
-			merchant.setTitle(trader.getDisplayName());
+			merchant = api.newMerchant (trader.getDisplayName ());
+			merchant.setTitle (trader.getDisplayName ());
 		} catch (NullPointerException e)
 		{
-			Skript.exception(e, "Could not open merchant as the api is not enabled.");
+			Skript.exception (e, "Could not open merchant as the api is not enabled.");
 			//e.printStackTrace();
 			return;
 		}
@@ -415,11 +416,11 @@ public class Trader
 		for (int i = 0; i < pages; i++)
 		{
 			page = i * 3;
-			item0 = list.get(page);
-			item1 = list.get(page + 1);
+			item0 = list.get (page);
+			item1 = list.get (page + 1);
 			try
 			{
-				item2 = list.get(page + 2);
+				item2 = list.get (page + 2);
 			} catch (IndexOutOfBoundsException e)
 			{
 				item2 = null;
@@ -427,28 +428,28 @@ public class Trader
 			/*
 			 * If the second 'in' item is empty it is stored as air, here it is converted back to nothing again
 			 */
-			if (item2.getType().equals(Material.getMaterial("AIR")))
+			if (item2.getType ().equals (Material.getMaterial ("AIR")))
 			{
 				item2 = null;
 			}
-			if (Util.isValidMaterial(item2, true))
+			if (Util.isValidMaterial (item2, true))
 			{
-				merchant.addOffer(api.newOffer(item0, item1, item2));
-			} else if (Util.isValidMaterial(item0, false) && Util.isValidMaterial(item1, false))
+				merchant.addOffer (api.newOffer (item0, item1, item2));
+			} else if (Util.isValidMaterial (item0, false) && Util.isValidMaterial (item1, false))
 			{
-				merchant.addOffer(api.newOffer(item0, item1));
+				merchant.addOffer (api.newOffer (item0, item1));
 			} else
 			{
-				Skript.error("Could not add offer as the item either was illegal or does not exist.", ErrorQuality.SEMANTIC_ERROR);
+				Skript.error ("Could not add offer as the item either was illegal or does not exist.", ErrorQuality.SEMANTIC_ERROR);
 			}
 		}
-		merchant.addCustomer(player);
+		merchant.addCustomer (player);
 	}
 
 	/**
 	 * @return the traders
 	 */
-	public static Map<String, TradeMerchant> getTraders()
+	public static Map<String, TradeMerchant> getTraders ()
 	{
 		return traders;
 	}
@@ -457,7 +458,7 @@ public class Trader
 	 * @param traders
 	 *            the traders to set
 	 */
-	public static void setTraders(Map<String, TradeMerchant> newTraders)
+	public static void setTraders (Map<String, TradeMerchant> newTraders)
 	{
 		traders = newTraders;
 	}

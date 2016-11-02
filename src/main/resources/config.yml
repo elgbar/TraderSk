@@ -1,0 +1,10 @@
+#When a trader have no items
+#Should the plugin open an empty
+#Trader menu to the player?
+#Default value: false
+openEmptyTraders: false
+
+#This will enable a hidden effect:
+#   list all items for trader %string% to %player%
+#It will show all trades that are currenty loaded
+debug: false

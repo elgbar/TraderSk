@@ -1,6 +1,7 @@
 package com.kh498.main.trader;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.inventory.ItemStack;
 
-import com.kh498.main.ConfigManager;
+import com.kh498.main.TraderConfigManager;
 
 public class TradeMerchant
 {
@@ -16,16 +17,16 @@ public class TradeMerchant
 	private String internalName;
 	private List<ItemStack> trades;
 
-	public TradeMerchant(String name, @Nullable ArrayList<ItemStack> traders)
+	public TradeMerchant (String name, @ Nullable ArrayList<ItemStack> traders)
 	{
 		this.internalName = name;
-		this.setDisplayName(name);
+		this.setDisplayName (name);
 		if (traders != null)
 		{
-			this.setTrades(traders);
+			this.setTrades (traders);
 		} else
 		{
-			this.setTrades(new ArrayList<ItemStack>());
+			this.setTrades (new ArrayList<ItemStack> ());
 		}
 	}
 
@@ -35,26 +36,27 @@ public class TradeMerchant
 	 * @param conf
 	 *            Where to save the trader
 	 */
-	public void saveMerchant(ConfigurationSection conf)
+	public void saveMerchant (ConfigurationSection conf)
 	{
-		ConfigurationSection mainSection = ConfigManager.getSectionOrCreate(conf, internalName);
-		if (mainSection.contains("Items")){
-			mainSection.set("Items", null);
-		}
-		ConfigurationSection tradesSection = ConfigManager.getSectionOrCreate(mainSection, "Items");
-		
-		mainSection.set("DisplayName", displayName);
-		
-		for (int i = 0; i < trades.size(); i++)
+		ConfigurationSection mainSection = TraderConfigManager.getSectionOrCreate (conf, internalName);
+		if (mainSection.contains ("Items"))
 		{
-			tradesSection.set("Item " + i, trades.get(i));
+			mainSection.set ("Items", null);
+		}
+		ConfigurationSection tradesSection = TraderConfigManager.getSectionOrCreate (mainSection, "Items");
+
+		mainSection.set ("DisplayName", displayName);
+
+		for (int i = 0; i < trades.size (); i++)
+		{
+			tradesSection.set ("Item " + i, trades.get (i));
 		}
 	}
 
 	/**
 	 * @return the name
 	 */
-	public String getInternalName()
+	public String getInternalName ()
 	{
 		return internalName;
 	}
@@ -62,7 +64,7 @@ public class TradeMerchant
 	/**
 	 * @return the trades
 	 */
-	public List<ItemStack> getTrades()
+	public List<ItemStack> getTrades ()
 	{
 		return trades;
 	}
@@ -71,7 +73,7 @@ public class TradeMerchant
 	 * @param trades
 	 *            the trades to set
 	 */
-	public void setTrades(List<ItemStack> trades)
+	public void setTrades (List<ItemStack> trades)
 	{
 		this.trades = trades;
 	}
@@ -79,7 +81,7 @@ public class TradeMerchant
 	/**
 	 * @return the displayName
 	 */
-	public String getDisplayName()
+	public String getDisplayName ()
 	{
 		return displayName;
 	}
@@ -88,9 +90,9 @@ public class TradeMerchant
 	 * @param displayName
 	 *            the displayName to set
 	 */
-	public void setDisplayName(String displayName)
+	public void setDisplayName (String displayName)
 	{
-		checkNotNull(displayName);
+		checkNotNull (displayName);
 		this.displayName = displayName;
 	}
 }

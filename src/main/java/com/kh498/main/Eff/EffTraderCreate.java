@@ -34,27 +34,27 @@ public class EffTraderCreate extends Effect
 {
 	private Expression<String> trader;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
+	@ Override
+	@ SuppressWarnings ("unchecked")
+	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
 	{
 		this.trader = (Expression<String>) expr[0];
 		return true;
 	}
 
-	@Override
-	public String toString(@Nullable Event e, boolean bool)
+	@ Override
+	public String toString (@ Nullable Event e, boolean bool)
 	{
 		return "Create a trader";
 	}
 
-	@Override
-	protected void execute(Event e)
+	@ Override
+	protected void execute (Event e)
 	{
 		String trader;
 		try
 		{
-			trader = this.trader.getSingle(e);
+			trader = this.trader.getSingle (e);
 		} catch (Exception ex)
 		{
 			return;
@@ -63,7 +63,7 @@ public class EffTraderCreate extends Effect
 		{
 			return;
 		}
-		Trader.TraderNew(trader);
+		Trader.TraderNew (trader);
 	}
 
 }
