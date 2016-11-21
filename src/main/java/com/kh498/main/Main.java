@@ -86,7 +86,7 @@ public class Main extends JavaPlugin
 					|| "1.0.0-SNAPSHOT".equals (externalVer))
 			{
 				//Only use internal version if the server runs a supported version
-				if ("v18r3".equals (MCversion) || "v19r2".equals (MCversion) || "v110r1".equals (MCversion))
+				if ("v18r3".equals (MCversion) || "v19r2".equals (MCversion) || "v110r1".equals (MCversion) || "v111r1".equals (MCversion))
 				{ //TODO add universal support, so it's easier to maintain
 						//disable Merchants plugin
 					Plugin plugin = Bukkit.getPluginManager ().getPlugin ("Merchants");

@@ -36,5 +36,6 @@
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.10.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/Skript 2.2 Fixes V8b.jar" sourcepath="C:/Users/karl henrik/Documents/Eclipse Workspace/skript-2.2-20141001.163423-2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.11.jar"/>
 	<classpathentry kind="output" path="target/plugins"/>
 </classpath>
