@@ -34,9 +34,9 @@ public class Util
 	 * Check if a material can be used in a merchant inventory, if not it would crash the client.
 	 * 
 	 * @param item
-	 *            itemstack that will be checked
+	 *        itemstack that will be checked
 	 * @param canBeNull
-	 *            Wherever the itemstack can be null
+	 *        Wherever the itemstack can be null
 	 * @return True if it is valid, false if not
 	 */
 	public static boolean isValidMaterial (ItemStack item, boolean canBeNull)
@@ -102,7 +102,7 @@ public class Util
 	 * Get the correct number of pages for a trader, this is needed because in one page there are three items.
 	 * 
 	 * @param list
-	 *            List of traders
+	 *        List of traders
 	 * @return Number of pages
 	 */
 	public static int getPages (List<ItemStack> list)

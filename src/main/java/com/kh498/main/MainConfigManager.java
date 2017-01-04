@@ -22,7 +22,7 @@ public class MainConfigManager
 	 * Load config.yml or create it isn't found
 	 * 
 	 * @param p
-	 *            Plugin to load
+	 *        Plugin to load
 	 */
 	public static void init (Plugin p)
 	{
@@ -64,9 +64,9 @@ public class MainConfigManager
 	 * Copies a file to a new location.
 	 * 
 	 * @param in
-	 *            InputStream
+	 *        InputStream
 	 * @param out
-	 *            File
+	 *        File
 	 * @throws Exception
 	 */
 	private static void copyFile (InputStream in, File out) throws Exception

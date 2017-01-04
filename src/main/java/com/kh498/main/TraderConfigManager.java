@@ -44,7 +44,7 @@ public class TraderConfigManager
 	 * Save traders from memory to disk
 	 * 
 	 * @param log
-	 *            Boolean to determinte wherever to log info or not
+	 *        Boolean to determinte wherever to log info or not
 	 */
 	public static void saveTraders (final boolean log)
 	{

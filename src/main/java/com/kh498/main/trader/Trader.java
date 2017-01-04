@@ -53,7 +53,7 @@ public class Trader
 
 	/**
 	 * @param trader
-	 *            Name of trader
+	 *        Name of trader
 	 */
 	public static void TraderNew (String traderName)
 	{
@@ -62,9 +62,9 @@ public class Trader
 
 	/**
 	 * @param trader
-	 *            Name of trader
+	 *        Name of trader
 	 * @param name
-	 *            Display name of trader
+	 *        Display name of trader
 	 */
 
 	public static void TraderSetTitle (TradeMerchant trader, String name)
@@ -86,7 +86,7 @@ public class Trader
 	 * Removes a trader
 	 * 
 	 * @param trader
-	 *            Name of trader
+	 *        Name of trader
 	 */
 	public static void TraderRemove (TradeMerchant trader)
 	{
@@ -110,9 +110,9 @@ public class Trader
 	 * Removes a page from a trader
 	 * 
 	 * @param trader
-	 *            Name of trader
+	 *        Name of trader
 	 * @param page
-	 *            What page to remove
+	 *        What page to remove
 	 */
 	public static void TraderRemovePage (TradeMerchant trader, int page)
 	{
@@ -167,15 +167,15 @@ public class Trader
 	 * Add or modify a page for a trader
 	 * 
 	 * @param trader
-	 *            The name of the trader
+	 *        The name of the trader
 	 * @param page
-	 *            What page to modify
+	 *        What page to modify
 	 * @param item0
-	 *            Item set in the out slot, cannot be null
+	 *        Item set in the out slot, cannot be null
 	 * @param item1
-	 *            Item set in the first in slot, cannot be null
+	 *        Item set in the first in slot, cannot be null
 	 * @param item2
-	 *            Item set in the secound in slot, can be null
+	 *        Item set in the secound in slot, can be null
 	 */
 	public static void TraderSetPage (TradeMerchant trader, int page, ItemStack item0, ItemStack item1, @ Nullable ItemStack item2)
 	{
@@ -194,8 +194,8 @@ public class Trader
 			try
 			{
 				list.get (page - 1); // this is just a test to check if there
-									// is a page previous to the requested
-									// page
+										// is a page previous to the requested
+										// page
 			} catch (IndexOutOfBoundsException e)
 			{
 				Skript.error ("Could not add items to page " + page + " as there are no items in the previous page.");
@@ -204,7 +204,7 @@ public class Trader
 		}
 
 		page = page * 3; // set the proper page (as there is 3 items per
-						// page)
+							// page)
 		ItemStack itemIn = null; // item in if there is only one input item
 
 		// If one of the items is null set itemIn to the other one
@@ -329,9 +329,9 @@ public class Trader
 	 * </p>
 	 * 
 	 * @param trader
-	 *            Name of trader
+	 *        Name of trader
 	 * @param player
-	 *            Player to send text to
+	 *        Player to send text to
 	 */
 	public static void TraderListPages (TradeMerchant trader, Player player)
 	{
@@ -370,9 +370,9 @@ public class Trader
 	 * Open a merchant inventory to a player
 	 * 
 	 * @param trader
-	 *            Name of trader
+	 *        Name of trader
 	 * @param player
-	 *            Player to open the merchant to
+	 *        Player to open the merchant to
 	 */
 	public static void TraderOpen (TradeMerchant trader, Player player)
 	{
@@ -453,7 +453,7 @@ public class Trader
 
 	/**
 	 * @param traders
-	 *            the traders to set
+	 *        the traders to set
 	 */
 	public static void setTraders (Map<String, TradeMerchant> newTraders)
 	{
