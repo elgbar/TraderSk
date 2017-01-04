@@ -73,12 +73,9 @@ public class Trader
 		checkNotNull (trader);
 		//Don't change the name if it is the same
 		String oldName = trader.getDisplayName ();
-		if (oldName != null)
+		if (oldName != null && oldName.equals (name))
 		{
-			if (oldName.equals (name))
-			{
-				return;
-			}
+			return;
 		}
 
 		trader.setDisplayName (Util.getJSON (name));
