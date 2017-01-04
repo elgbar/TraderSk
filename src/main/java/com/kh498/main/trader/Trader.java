@@ -81,7 +81,7 @@ public class Trader
 			}
 		}
 
-		trader.setDisplayName (name);
+		trader.setDisplayName (Util.getJSON (name));
 		// Save trades to disk
 	}
 
@@ -405,7 +405,7 @@ public class Trader
 		try
 		{
 			merchant = api.newMerchant (trader.getDisplayName ());
-			merchant.setTitle (trader.getDisplayName ());
+			merchant.setTitle (trader.getDisplayName (), true);
 		} catch (NullPointerException e)
 		{
 			Skript.exception (e, "Could not open merchant as the api is not enabled.");
