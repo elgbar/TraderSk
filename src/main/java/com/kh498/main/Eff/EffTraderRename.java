@@ -1,75 +1,66 @@
 /**
- *  This file is part of TraderSk
- *  
- *  Copyright (C) 2016, kh498
- * 
- *  TraderSk is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  TraderSk is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of TraderSk
+ * <p>
+ * Copyright (C) 2016, kh498
+ * <p>
+ * TraderSk is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * TraderSk is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.kh498.main.Eff;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.event.Event;
-
-import com.kh498.main.trader.TradeMerchant;
-import com.kh498.main.trader.Trader;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
+import com.kh498.main.trader.TradeMerchant;
+import com.kh498.main.trader.Trader;
+import org.bukkit.event.Event;
 
-public class EffTraderRename extends Effect
-{
-	private Expression<String> trader;
-	private Expression<String> name;
+import javax.annotation.Nullable;
 
-	@ Override
-	@ SuppressWarnings ("unchecked")
-	public boolean init (Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3)
-	{
-		trader = (Expression<String>) expr[0];
-		name = (Expression<String>) expr[1];
-		return true;
-	}
+public class EffTraderRename extends Effect {
+    private Expression<String> trader;
+    private Expression<String> name;
 
-	@ Override
-	public String toString (@ Nullable Event e, boolean bool)
-	{
-		return "Change the inventory title for a trader";
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean init(final Expression<?>[] expr, final int arg1, final Kleenean arg2, final ParseResult arg3) {
+        this.trader = (Expression<String>) expr[0];
+        this.name = (Expression<String>) expr[1];
+        return true;
+    }
 
-	@ Override
-	protected void execute (Event e)
-	{
-		String name;
-		TradeMerchant trader;
-		try
-		{
-			name = this.name.getSingle (e);
-			trader = Trader.getTradeMerchant (this.trader.getSingle (e));
-		} catch (Exception ex)
-		{
-			return;
-		}
+    @Override
+    public String toString(@Nullable final Event e, final boolean bool) {
+        return "Change the inventory title for a trader";
+    }
 
-		if (trader == null)
-		{ //Cannot trade with nothing
-			return;
-		}
-		trader.setDisplayName (name);
-	}
+    @Override
+    protected void execute(final Event e) {
+        final String name;
+        final TradeMerchant trader;
+        try {
+            name = this.name.getSingle(e);
+            trader = Trader.getTradeMerchant(this.trader.getSingle(e));
+        } catch (final Exception ex) {
+            return;
+        }
+
+        if (trader == null) { //Cannot trade with nothing
+            return;
+        }
+        Trader.TraderSetTitle(trader, name);
+    }
 
 }

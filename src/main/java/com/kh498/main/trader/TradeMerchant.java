@@ -1,98 +1,85 @@
 package com.kh498.main.trader;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.kh498.main.TraderConfigManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.inventory.ItemStack;
 
-import com.kh498.main.TraderConfigManager;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TradeMerchant
-{
-	private String displayName;
-	private String internalName;
-	private List<ItemStack> trades;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-	public TradeMerchant (String name, @ Nullable ArrayList<ItemStack> traders)
-	{
-		this.internalName = name;
-		this.setDisplayName (name);
-		if (traders != null)
-		{
-			this.setTrades (traders);
-		} else
-		{
-			this.setTrades (new ArrayList<ItemStack> ());
-		}
-	}
+public class TradeMerchant {
+    private final String internalName;
+    private String displayName;
+    private List<ItemStack> trades;
 
-	/**
-	 * Save a trader <b>Note</b>: This function creates a section for it's merchant
-	 * 
-	 * @param conf
-	 *            Where to save the trader
-	 */
-	public void saveMerchant (ConfigurationSection conf)
-	{
-		ConfigurationSection mainSection = TraderConfigManager.getSectionOrCreate (conf, internalName);
-		if (mainSection.contains ("Items"))
-		{
-			mainSection.set ("Items", null);
-		}
-		ConfigurationSection tradesSection = TraderConfigManager.getSectionOrCreate (mainSection, "Items");
+    public TradeMerchant(final String name, @Nullable final ArrayList<ItemStack> traders) {
+        this.internalName = name;
+        Trader.TraderSetTitle(this, name);
+        if (traders != null) {
+            this.setTrades(traders);
+        }
+        else {
+            this.setTrades(new ArrayList<>());
+        }
+    }
 
-		mainSection.set ("DisplayName", displayName);
+    /**
+     * Save a trader <b>Note</b>: This function creates a section for it's merchant
+     *
+     * @param conf Where to save the trader
+     */
+    public void saveMerchant(final ConfigurationSection conf) {
+        final ConfigurationSection mainSection = TraderConfigManager.getSectionOrCreate(conf, this.internalName);
+        if (mainSection.contains("Items")) {
+            mainSection.set("Items", null);
+        }
+        final ConfigurationSection tradesSection = TraderConfigManager.getSectionOrCreate(mainSection, "Items");
 
-		for (int i = 0; i < trades.size (); i++)
-		{
-			tradesSection.set ("Item " + i, trades.get (i));
-		}
-	}
+        mainSection.set("DisplayName", this.displayName);
 
-	/**
-	 * @return the name
-	 */
-	public String getInternalName ()
-	{
-		return internalName;
-	}
+        for (int i = 0; i < this.trades.size(); i++) {
+            tradesSection.set("Item " + i, this.trades.get(i));
+        }
+    }
 
-	/**
-	 * @return the trades
-	 */
-	public List<ItemStack> getTrades ()
-	{
-		return trades;
-	}
+    /**
+     * @return the name
+     */
+    public String getInternalName() {
+        return this.internalName;
+    }
 
-	/**
-	 * @param trades
-	 *            the trades to set
-	 */
-	public void setTrades (List<ItemStack> trades)
-	{
-		this.trades = trades;
-	}
+    /**
+     * @return the trades
+     */
+    @SuppressWarnings("WeakerAccess")
+    public List<ItemStack> getTrades() {
+        return this.trades;
+    }
 
-	/**
-	 * @return the displayName
-	 */
-	public String getDisplayName ()
-	{
-		return displayName;
-	}
+    /**
+     * @param trades the trades to set
+     */
+    public void setTrades(final List<ItemStack> trades) {
+        this.trades = trades;
+    }
 
-	/**
-	 * @param displayName
-	 *            the displayName to set
-	 */
-	public void setDisplayName (String displayName)
-	{
-		checkNotNull (displayName);
-		this.displayName = displayName;
-	}
+    /**
+     * @return the displayName
+     */
+    @SuppressWarnings("WeakerAccess")
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
+    /**
+     * @param displayName the displayName to set
+     */
+    public void setDisplayName(final String displayName) {
+        checkNotNull(displayName);
+        this.displayName = displayName;
+    }
 }

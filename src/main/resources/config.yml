@@ -6,6 +6,6 @@ openEmptyTraders: false
 
 #This will enable a hidden effect:
 #   list all items for trader %string% to %player%
-#It will show all trades that are currenty loaded
+#It will show all trades that are currently loaded
 #Default value: false
 debug: false
