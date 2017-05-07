@@ -41,11 +41,13 @@ public class Main extends JavaPlugin {
     public static Plugin getInstance() {
         return instance;
     }
+
     public static void log(final String msg) {
         if (DEBUG) {
-            getInstance().getLogger().log(Level.FINE, msg);
+            getInstance().getLogger().log(Level.INFO, msg);
         }
     }
+
     @Override
     public void onDisable() {
         if (this.enabled) { TraderConfigManager.saveTraders(true); }
@@ -66,6 +68,8 @@ public class Main extends JavaPlugin {
 
         TraderConfigManager.init(this);
         MainConfigManager.init(this);
+
+        DEBUG = MainConfigManager.getMainConfig().getBoolean(MainConfigManager.DEBUG_PATH);
 
         final boolean versionMatch;
 
@@ -155,7 +159,7 @@ public class Main extends JavaPlugin {
             getLogger().info("Enabled ~ Created by kh498");
             this.enabled = true;
         }
-        this.DEBUG = MainConfigManager.getMainConfig().getBoolean(MainConfigManager.DEBUG_PATH);
+
     }
 
 }

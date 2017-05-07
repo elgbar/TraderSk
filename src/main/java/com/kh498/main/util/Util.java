@@ -1,7 +1,7 @@
 package com.kh498.main.util;
 
 import ch.njol.skript.Skript;
-import com.kh498.main.MainConfigManager;
+import com.kh498.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -32,9 +32,7 @@ public class Util {
      */
     public static boolean isValidMaterial(final ItemStack item, final boolean canBeNull) {
         if (item == null) {
-            if (MainConfigManager.getMainConfig().getBoolean(MainConfigManager.DEBUG_PATH)) {
-                Skript.error("Material was null when validating it");
-            }
+            Main.log("Material was null when validating it");
             return canBeNull;
         }
         // below is list of illegal materials

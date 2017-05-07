@@ -42,6 +42,7 @@ class Register {
         Skript.registerEffect(EffTraderSave.class, "save all [merchant] trader[s]");
 
         if (MainConfigManager.getMainConfig().getBoolean(MainConfigManager.DEBUG_PATH)) {
+            Main.log("Debug effect has been enabled");
             Skript.registerEffect(EffTraderListPages.class, "list all items for trader %string% to %player%");
         }
     }
