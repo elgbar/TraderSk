@@ -32,10 +32,58 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot_server 1.8r3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.10.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/Skript 2.2 Fixes V8b.jar" sourcepath="C:/Users/karl henrik/Documents/Eclipse Workspace/skript-2.2-20141001.163423-2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/karl henrik/Documents/Eclipse Workspace/spigot-1.11.jar"/>
-	<classpathentry kind="output" path="target/plugins"/>
+	<classpathentry kind="lib" path="D:/Karl henrik/Documents/Eclipse Workspace/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="D:/Karl henrik/Documents/Eclipse Workspace/spigot_server 1.8r3.jar"/>
+	<classpathentry kind="lib" path="D:/Karl henrik/Documents/Eclipse Workspace/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="D:/Karl henrik/Documents/Eclipse Workspace/Skript 2.2 Fixes V8b.jar" sourcepath="D:/Karl henrik/Documents/Eclipse Workspace/skript-2.2-20141001.163423-2-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Karl henrik/Documents/Eclipse Workspace/spigot-1.11.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Skript 2.2 Fixes V8b"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/spigot-1.9.4-R0.1-SNAPSHOT"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/spigot-1.10.2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/spigot-1.11"/>
+	<classpathentry kind="lib" path="/TraderSk/lib/yourJar.jar"/>
+	<classpathentry kind="lib" path="/TraderSk/lib/yourJar.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.spigotmc:spigot:1.9.4-R0.1-SNAPSHOT"/>
+	<classpathentry kind="lib" path="/TraderSk/src/main/resources/yourJar.jar"/>
+	<classpathentry kind="lib" path="/TraderSk/lib/Skript 2.2 Fixes V8b.jar.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="lib" path="/TraderSk/lib"/>
+	<classpathentry kind="lib" path="/TraderSk/lib"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="lib" path="/TraderSk/lib"/>
+	<classpathentry kind="lib" path="lib/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.11.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.11.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.11.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.11.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: commons-lang:commons-lang:2.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: com.googlecode.json-simple:json-simple:1.1.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: junit:junit:4.10"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.hamcrest:hamcrest-core:1.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: com.google.guava:guava:17.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: com.google.code.gson:gson:2.2.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.avaje:ebean:2.8.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: javax.persistence:persistence-api:1.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.yaml:snakeyaml:1.15"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: net.md-5:bungeecord-chat:1.8-SNAPSHOT"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: org.bukkit:craftbukkit:1.8.8-R0.1-SNAPSHOT"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Maven: com.google.code.findbugs:jsr305:3.0.0"/>
+	<classpathentry kind="lib" path="lib/spigot-1.9.4-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="lib/spigot-1.11.jar"/>
+	<classpathentry kind="lib" path="lib/Skript 2.2 Fixes V8b.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
