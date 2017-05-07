@@ -62,9 +62,11 @@ public class Trader {
     public static void TraderSetTitle(final TradeMerchant trader, final String name) {
         checkNotNull(name, "name");
         checkNotNull(trader);
-        //Don't change the name if it is the same
+
         final String oldName = trader.getDisplayName();
         final String newName = Util.toJSON(name);
+
+        Main.log("new JSON name: " + newName);
         if (oldName != null && oldName.equals(newName)) {
             Main.log("");
             return;
@@ -119,14 +121,14 @@ public class Trader {
             return;
         }
         // set the proper page (as there is 3 items per page)
-        page = page * 3;
+        page *= 3;
 
         if (pages <= 0) { // clear the list if there are no pages
             list.clear();
             return;
         }
         Main.log("Going to remove: " + list.get(page) + ", " + list.get(page + 1) + " and " + list.get(page + 2));
-        Main.log("before: " + list);
+        Main.log("before removing: " + list);
 
         // remove the item from array
         for (int i = 2; i >= 0; i--) {
@@ -136,7 +138,7 @@ public class Trader {
         // save items to disk
         trader.setTrades(list);
 
-        Main.log("after:  " + list);
+        Main.log("after removing: " + list);
 
 
     }
@@ -144,14 +146,14 @@ public class Trader {
     /**
      * Add or modify a page for a trader
      *
-     * @param trader The name of the trader
-     * @param page   What page to modify
-     * @param item0  Item set in the out slot, cannot be null
-     * @param item1  Item set in the first in slot, cannot be null
-     * @param item2  Item set in the secound in slot, can be null
+     * @param trader     The name of the trader
+     * @param page       What page to modify
+     * @param outputItem Item set in the out slot, cannot be null
+     * @param inputItem1 Item set in the first in slot, cannot be null
+     * @param inputItem2 Item set in the second in slot, can be null
      */
-    public static void TraderSetPage(final TradeMerchant trader, int page, final ItemStack item0, final ItemStack item1,
-                                     @Nullable final ItemStack item2) {
+    public static void TraderSetPage(final TradeMerchant trader, int page, final ItemStack outputItem,
+                                     final ItemStack inputItem1, @Nullable final ItemStack inputItem2) {
         checkNotNull(trader);
         //get the list of traders
         final List<ItemStack> list = trader.getTrades();
@@ -173,21 +175,21 @@ public class Trader {
             }
         }
 
-        page = page * 3; // set the proper page (as there is 3 items per
+        page *= 3; // set the proper page (as there is 3 items per
         // page)
         ItemStack itemIn = null; // item in if there is only one input item
 
         // If one of the items is null set itemIn to the other one
-        if (item1 == null && item2 != null) {
-            itemIn = item2;
+        if (inputItem1 == null && inputItem2 != null) {
+            itemIn = inputItem2;
         }
-        else if (item2 == null && item1 != null) {
-            itemIn = item1;
+        else if (inputItem2 == null && inputItem1 != null) {
+            itemIn = inputItem1;
         }
 
         // Check if any of the items are invalid
-        if (!Util.isValidMaterial(item0, false) || !Util.isValidMaterial(item1, false) ||
-            !Util.isValidMaterial(item2, true) || !Util.isValidMaterial(itemIn, true)) {
+        if (!Util.isValidMaterial(outputItem, false) || !Util.isValidMaterial(inputItem1, false) ||
+            !Util.isValidMaterial(inputItem2, true) || !Util.isValidMaterial(itemIn, true)) {
             Main.log("Invalid material");
 
             return;
@@ -224,21 +226,21 @@ public class Trader {
             } catch (final IndexOutOfBoundsException e) {
                 itemIN2 = "NONE";
             }
-            Main.log("itemOUT: " + itemOUT + " | itemIN1: " + itemIN1 + " | itemIN2: " + itemIN2 + "\nitem0: " + item0 +
-                     " item1: " + item1 + " item2: " + item2 + " itemIn: " + itemIn + "\nindex: " + page + " size: " +
-                     list.size() + " pages: " + pages);
+            Main.log("itemOUT: " + itemOUT + " | itemIN1: " + itemIN1 + " | itemIN2: " + itemIN2 + "\noutputItem: " +
+                     outputItem + " inputItem1: " + inputItem1 + " inputItem2: " + inputItem2 + " itemIn: " + itemIn +
+                     "\nindex: " + page + " size: " + list.size() + " pages: " + pages);
 
             Main.log("itemOUT: " + itemOUT + "itemIN1: " + itemIN1 + "itemIN2: " + itemIN2 + " | index: " + page);
         }
         if ("set".equals(mode)) {
-            list.set(page, item0); // set the output item
-            Main.log("item0: set");
+            list.set(page, outputItem); // set the output item
+            Main.log("outputItem: set");
 
         }
         else { // mode is add
-            Main.log("item0: add");
+            Main.log("outputItem: add");
 
-            list.add(item0); // set the output item
+            list.add(outputItem); // set the output item
 
         }
         /*
@@ -263,17 +265,17 @@ public class Trader {
         }
         else {
             if ("set".equals(mode)) {
-                Main.log("item1: set");
+                Main.log("inputItem1: set");
 
-                list.set(page + 1, item1);
-                list.set(page + 2, item2);
+                list.set(page + 1, inputItem1);
+                list.set(page + 2, inputItem2);
             }
             else {
-                Main.log("item2: add");
+                Main.log("inputItem2: add");
 
 
-                list.add(item1);
-                list.add(item2);
+                list.add(inputItem1);
+                list.add(inputItem2);
             }
         }
         trader.setTrades(list);
@@ -284,7 +286,7 @@ public class Trader {
      * List all trades from memory and shows it to a player
      * </p>
      * <p>
-     * <strong>Note:</strong> This is a debug effect and should not be in an realeased version
+     * <strong>Note:</strong> This is a debug effect and should not be in an released version
      * </p>
      *
      * @param trader Name of trader
@@ -295,28 +297,30 @@ public class Trader {
 
         final List<ItemStack> list = trader.getTrades();
         final int pages = Util.getPages(list);
-        String ShowItem0, ShowItem1, ShowItem2;
-        ShowItem0 = ShowItem1 = ShowItem2 = "empty";
-        ItemStack item0, item1, item2;
+        String ShowOutputItem, ShowInputItem1, ShowInputItem2;
+        ShowOutputItem = ShowInputItem1 = ShowInputItem2 = "empty";
+        ItemStack outputItem, inputItem1, inputItem2;
         player.sendMessage(
             ChatColor.GOLD + "Trader " + trader.getDisplayName() + "'s (internal name: '" + trader.getInternalName() +
             "') items");
         player.sendMessage(ChatColor.GRAY + "There are " + pages + " page(s):");
-        for (int i = 0; i < pages; i++) {
-            final int page = i * 3;
-            item0 = list.get(page);
-            item1 = list.get(page + 1);
-            item2 = list.get(page + 2);
-            if (Util.isValidMaterial(item0, false)) {
-                ShowItem0 = item0.getType().toString().toLowerCase();
+        for (int pageNr = 0; pageNr < pages; pageNr++) {
+            final int page = pageNr * 3;
+            outputItem = list.get(page);
+            inputItem1 = list.get(page + 1);
+            inputItem2 = list.get(page + 2);
+            if (Util.isValidMaterial(outputItem, false)) {
+                ShowOutputItem = outputItem.getType().toString().toLowerCase();
             }
-            if (Util.isValidMaterial(item1, false)) {
-                ShowItem1 = item1.getType().toString().toLowerCase();
+            if (Util.isValidMaterial(inputItem1, false)) {
+                ShowInputItem1 = inputItem1.getType().toString().toLowerCase();
             }
-            if (Util.isValidMaterial(item2, true)) {
-                ShowItem2 = item2.getType().toString().toLowerCase();
+            if (Util.isValidMaterial(inputItem2, true)) {
+                ShowInputItem2 = inputItem2.getType().toString().toLowerCase();
             }
-            player.sendMessage(ChatColor.YELLOW + "" + i + ": " + ShowItem0 + ", " + ShowItem1 + " and " + ShowItem2);
+            player.sendMessage(
+                ChatColor.YELLOW + "" + pageNr + ": " + ShowOutputItem + ", " + ShowInputItem1 + " and " +
+                ShowInputItem2);
         }
     }
 
@@ -329,20 +333,23 @@ public class Trader {
     public static void TraderOpen(final TradeMerchant trader, final Player player) {
         // The trader exist
         checkNotNull(trader);
+        if (player == null) {
+            return;
+        }
 
         // list over all items for this trader
-        final List<ItemStack> list = trader.getTrades();
+        final List<ItemStack> tradesList = trader.getTrades();
 
         // if there is no items, do not open the trader
-        if (list.size() == 0) {
+        if (tradesList.size() == 0) {
             if (!MainConfigManager.getMainConfig().getBoolean(MainConfigManager.OPEN_EMPTY_PATH)) { return; }
         }
 
-        ItemStack item0, item1, item2;
+        ItemStack outputItem, inputItem1, inputItem2;
         int page;
-        final int pages = Util.getPages(list);
+        final int pages = Util.getPages(tradesList);
 
-        Main.log("" + pages + " | " + list.size());
+        Main.log("Nr of pages: " + pages + " | Size of item list: " + tradesList.size());
 
 
         // create merchant
@@ -358,24 +365,24 @@ public class Trader {
         //first page starts at 0 therefore i == 0
         for (int i = 0; i < pages; i++) {
             page = i * 3;
-            item0 = list.get(page);
-            item1 = list.get(page + 1);
+            outputItem = tradesList.get(page);
+            inputItem1 = tradesList.get(page + 1);
             try {
-                item2 = list.get(page + 2);
+                inputItem2 = tradesList.get(page + 2);
             } catch (final IndexOutOfBoundsException e) {
-                item2 = null;
+                inputItem2 = null;
             }
             /*
              * If the second 'in' item is empty it is stored as air, here it is converted back to nothing again
 			 */
-            if (item2 == null || item2.getType().equals(Material.getMaterial("AIR"))) {
-                item2 = null;
+            if (inputItem2 == null || inputItem2.getType().equals(Material.AIR)) {
+                inputItem2 = null;
             }
-            if (Util.isValidMaterial(item2, true)) {
-                merchant.addOffer(api.newOffer(item0, item1, item2));
+            if (Util.isValidMaterial(inputItem2, true)) {
+                merchant.addOffer(api.newOffer(outputItem, inputItem1, inputItem2));
             }
-            else if (Util.isValidMaterial(item0, false) && Util.isValidMaterial(item1, false)) {
-                merchant.addOffer(api.newOffer(item0, item1));
+            else if (Util.isValidMaterial(outputItem, false) && Util.isValidMaterial(inputItem1, false)) {
+                merchant.addOffer(api.newOffer(outputItem, inputItem1));
             }
             else {
                 Skript.error("Could not add offer as the item either was illegal or does not exist.",
