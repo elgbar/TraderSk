@@ -156,26 +156,29 @@ public class Trader {
                                      final ItemStack inputItem1, @Nullable final ItemStack inputItem2) {
         checkNotNull(trader);
         //get the list of traders
-        final List<ItemStack> list = trader.getTrades();
+        final List<ItemStack> tradesList = trader.getTrades();
+
+        page *= 3; // set the proper page (as there is 3 items per
 
         // Only accept pages that are higher or equal to 0
-        if (0 > page) {
+        if (page < 0) {
             Skript.error("The requested page number is too low, it cannot be lower than 0");
             return;
-
         }
-        else if (page != 0) {
+        else if (tradesList.size() < page) {
             try {
-                list.get(page - 1); // this is just a test to check if there
+                tradesList.get(page - 1); // this is just a test to check if there
                 // is a page previous to the requested
                 // page
             } catch (final IndexOutOfBoundsException e) {
-                Skript.error("Could not add items to page " + page + " as there are no items in the previous page.");
+                Skript
+                    .error("Could not add items to page " + page / 3 + " as there are no items in the previous page.");
                 return;
             }
+            Skript.error("Could not add items to page " + page / 3 + " as there are no items in the previous page.");
+            return;
         }
 
-        page *= 3; // set the proper page (as there is 3 items per
         // page)
         ItemStack itemIn = null; // item in if there is only one input item
 
@@ -206,7 +209,7 @@ public class Trader {
          * Try and set the outitem, if it throws an IndexOutOfBoundsException add the item.
 		 */
         try {
-            itemOUT = "" + list.get(page);
+            itemOUT = "" + tradesList.get(page);
             mode = "set";
         } catch (final IndexOutOfBoundsException e) {
             itemOUT = "NONE";
@@ -215,32 +218,32 @@ public class Trader {
 
         // debug output on the trade
         if (MainConfigManager.getMainConfig().getBoolean(MainConfigManager.DEBUG_PATH)) {
-            final int pages = Util.getPages(list);
+            final int pages = Util.getPages(tradesList);
             try {
-                itemIN1 = "" + list.get(page + 1);
+                itemIN1 = "" + tradesList.get(page + 1);
             } catch (final IndexOutOfBoundsException e) {
                 itemIN1 = "NONE";
             }
             try {
-                itemIN2 = "" + list.get(page + 2);
+                itemIN2 = "" + tradesList.get(page + 2);
             } catch (final IndexOutOfBoundsException e) {
                 itemIN2 = "NONE";
             }
             Main.log("itemOUT: " + itemOUT + " | itemIN1: " + itemIN1 + " | itemIN2: " + itemIN2 + "\noutputItem: " +
                      outputItem + " inputItem1: " + inputItem1 + " inputItem2: " + inputItem2 + " itemIn: " + itemIn +
-                     "\nindex: " + page + " size: " + list.size() + " pages: " + pages);
+                     "\nindex: " + page + " size: " + tradesList.size() + " pages: " + pages);
 
             Main.log("itemOUT: " + itemOUT + "itemIN1: " + itemIN1 + "itemIN2: " + itemIN2 + " | index: " + page);
         }
         if ("set".equals(mode)) {
-            list.set(page, outputItem); // set the output item
+            tradesList.set(page, outputItem); // set the output item
             Main.log("outputItem: set");
 
         }
         else { // mode is add
             Main.log("outputItem: add");
 
-            list.add(outputItem); // set the output item
+            tradesList.add(outputItem); // set the output item
 
         }
         /*
@@ -252,14 +255,14 @@ public class Trader {
             if ("set".equals(mode)) {
                 Main.log("itemIn: set");
 
-                list.set(page + 1, itemIn);
-                list.set(page + 2, air); // removes item
+                tradesList.set(page + 1, itemIn);
+                tradesList.set(page + 2, air); // removes item
             }
             else {
                 Main.log("itemIn: add");
 
-                list.add(itemIn);
-                list.add(air); // removes item
+                tradesList.add(itemIn);
+                tradesList.add(air); // removes item
 
             }
         }
@@ -267,18 +270,18 @@ public class Trader {
             if ("set".equals(mode)) {
                 Main.log("inputItem1: set");
 
-                list.set(page + 1, inputItem1);
-                list.set(page + 2, inputItem2);
+                tradesList.set(page + 1, inputItem1);
+                tradesList.set(page + 2, inputItem2);
             }
             else {
                 Main.log("inputItem2: add");
 
 
-                list.add(inputItem1);
-                list.add(inputItem2);
+                tradesList.add(inputItem1);
+                tradesList.add(inputItem2);
             }
         }
-        trader.setTrades(list);
+        trader.setTrades(tradesList);
     }
 
     /**
