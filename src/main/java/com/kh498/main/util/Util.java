@@ -5,6 +5,7 @@ import com.kh498.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.util.List;
 
@@ -103,6 +104,6 @@ public class Util {
      * @return String Json string
      */
     public static String toJSON(final String title) {
-        return "{\"text\":\"" + title + "\"}";
+        return "{\"text\":" + JSONObject.quote(title) + '}';
     }
 }
