@@ -84,32 +84,32 @@ public class Main extends JavaPlugin {
 		/*
          * if you're using an older version of the API and the server runs on an internally supported version then use the internal version.
 		 */
-        final String APIversion = "1.5.0-SNAPSHOT";
+        final String externalAPIVersion =
+            Bukkit.getPluginManager().getPlugin("Merchants").getDescription().getVersion();
+        final String InternalAPIVersion = "1.5.1";
         if (hasMerchants) {
-            final String externalVer = Bukkit.getPluginManager().getPlugin("Merchants").getDescription().getVersion();
-
+            if (externalAPIVersion.equals(InternalAPIVersion)) {
+                getLogger().info("Found plugins Merchants using the same version the API (" + externalAPIVersion +
+                                 "). Using that instead of the internal version.");
+            }
             // all old versions found on GitHub.com/Cybermaxke/MerchantsAPI (from 1.3.0-SNAPSHOT you can find the version in /gradle/build-base.gradle)
-            if ("1.4.0-SNAPSHOT".equals(externalVer) || "1.3.0-SNAPSHOT".equals(externalVer) ||
-                "1.2.0-SNAPSHOT".equals(externalVer) || "1.2-SNAPSHOT".equals(externalVer) ||
-                "1.1.1-SNAPSHOT".equals(externalVer) || "1.1.0-SNAPSHOT".equals(externalVer) ||
-                "1.0.1-SNAPSHOT".equals(externalVer) || "1.0.0-SNAPSHOT".equals(externalVer)) {
+            else if (isUsingOldAPI(externalAPIVersion)) {
                 //Only use internal version if the server runs a supported version
-                if ("v18r3".equals(this.MCversion) || "v19r2".equals(this.MCversion) ||
-                    "v110r1".equals(this.MCversion) ||
-                    "v111r1".equals(this.MCversion)) { //TODO add universal support, so it's easier to maintain
+                if (supportedMCVersions()) {
                     //disable Merchants plugin
                     final Plugin plugin = Bukkit.getPluginManager().getPlugin("Merchants");
                     getServer().getPluginManager().disablePlugin(plugin);
                     oldVersion = true; //let the rest of the program that the external version was old
 
-                    getLogger().info("Found plugins Merchants but its using an old version of the API (" + externalVer +
-                                     "). The plugin will be disabled and an internal, newer version (" + APIversion +
-                                     "), will be used in it's place.");
+                    getLogger().info(
+                        "Found plugins Merchants but its using an old version of the API (" + externalAPIVersion +
+                        "). The plugin will be disabled and an internal, newer version (" + InternalAPIVersion +
+                        "), will be used in it's place.");
                 }
                 else {
                     getLogger().info(
                         "Found plugins Merchants but its using an old version or the same version of the API (" +
-                        externalVer + "). Consider updating it.");
+                        externalAPIVersion + "). Consider updating it.");
 
                 }
             }
@@ -119,13 +119,13 @@ public class Main extends JavaPlugin {
             final SMerchantPlugin SMerchantPlugin = new SMerchantPlugin(this);
             versionMatch = SMerchantPlugin.Enable();
             if (!hasMerchants && versionMatch) {
-                getLogger().info("Could not find plugin Merchants, using internal API version " + APIversion +
+                getLogger().info("Could not find plugin Merchants, using internal API version " + InternalAPIVersion +
                                  " with minecraft server version " + this.MCversion);
             }
         }
         else {
             versionMatch = true;
-            getLogger().info("Found Merchants, using it's version");
+            getLogger().info("Found newer Merchants plugin (" + externalAPIVersion + "), using it's version");
         }
 
         if (versionMatch) {
@@ -160,6 +160,35 @@ public class Main extends JavaPlugin {
             this.enabled = true;
         }
 
+    }
+
+    private boolean isUsingOldAPI(final String externalVer) {
+        switch (externalVer) {
+            case "1.5.0-SNAPSHOT":
+            case "1.4.0-SNAPSHOT":
+            case "1.3.0-SNAPSHOT":
+            case "1.2.0-SNAPSHOT":
+            case "1.2-SNAPSHOT":
+            case "1.1.1-SNAPSHOT":
+            case "1.1.0-SNAPSHOT":
+            case "1.0.1-SNAPSHOT":
+            case "1.0.0-SNAPSHOT":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean supportedMCVersions() {
+        switch (this.MCversion) {
+            case "v111r1":
+            case "v110r1":
+            case "v19r2":
+            case "v18r3":
+                return true;
+            default:
+                return false;
+        }
     }
 
 }
