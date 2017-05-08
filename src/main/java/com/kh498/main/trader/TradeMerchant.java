@@ -2,7 +2,6 @@ package com.kh498.main.trader;
 
 import com.kh498.main.TraderConfigManager;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -15,15 +14,10 @@ public class TradeMerchant {
     private String displayName;
     private List<ItemStack> trades;
 
-    public TradeMerchant(final String name, @Nullable final ArrayList<ItemStack> traders) {
+    public TradeMerchant(final String name) {
         this.internalName = name;
         Trader.TraderSetTitle(this, name);
-        if (traders != null) {
-            this.setTrades(traders);
-        }
-        else {
-            this.setTrades(new ArrayList<>());
-        }
+        this.setTrades(new ArrayList<>());
     }
 
     /**

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class TraderConfigManager {
     private final static String TRADERS_CONF_SEC = "Traders";
@@ -23,10 +24,20 @@ public class TraderConfigManager {
     public static void init(final Plugin p) {
         plugin = p;
         traderConfigFile = new File(p.getDataFolder().getAbsolutePath());
-        if (!traderConfigFile.exists() || !traderConfigFile.isDirectory()) { traderConfigFile.mkdir(); }
+        if (!traderConfigFile.exists() || !traderConfigFile.isDirectory()) {
+            final boolean mkDir = traderConfigFile.mkdir();
+            if (!mkDir) {
+                Main.getInstance().getLogger().log(Level.SEVERE, "Failed to create data folder directory");
+            }
+        }
         traderConfigFile = new File(p.getDataFolder().getAbsolutePath(), "Traders.yml");
         try {
-            if (!traderConfigFile.exists()) { traderConfigFile.createNewFile(); }
+            if (!traderConfigFile.exists()) {
+                final boolean newFile = traderConfigFile.createNewFile();
+                if (!newFile) {
+                    Main.getInstance().getLogger().log(Level.SEVERE, "Failed to create trader trader config file");
+                }
+            }
             traderConfig = YamlConfiguration.loadConfiguration(traderConfigFile);
         } catch (final Exception e) {
             e.printStackTrace();
@@ -36,7 +47,7 @@ public class TraderConfigManager {
     /**
      * Save traders from memory to disk
      *
-     * @param log Boolean to determinte wherever to log info or not
+     * @param log Boolean to determinate wherever to log info or not
      */
     public static void saveTraders(final boolean log) {
         final Map<String, TradeMerchant> traders = Trader.getTraders();
@@ -94,7 +105,7 @@ public class TraderConfigManager {
 
         final Map<String, TradeMerchant> newMap = new HashMap<>();
         for (final Map.Entry<String, Object> entry : map.entrySet()) {
-            final TradeMerchant newTM = new TradeMerchant(entry.getKey(), null);
+            final TradeMerchant newTM = new TradeMerchant(entry.getKey());
             final ConfigurationSection traderSec = mainSec.getConfigurationSection(entry.getKey());
 
             if (traderSec.getString("DisplayName") != null) {

@@ -1,20 +1,20 @@
-/**
- * This file is part of TraderSk
- * <p>
- * Copyright (C) 2016, kh498
- * <p>
- * TraderSk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * TraderSk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
+/*
+  This file is part of TraderSk
+  <p>
+  Copyright (C) 2016, kh498
+  <p>
+  TraderSk is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  <p>
+  TraderSk is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.kh498.main;
@@ -36,9 +36,9 @@ public class Main extends JavaPlugin {
     static String CHAT_PREFIX;
     private static Plugin instance;
     private static boolean DEBUG;
-    private final String MCversion = Util.getNmsVersion(); //Minecraft server version
+    private final String MCVersion = Util.getNmsVersion(); //Minecraft server version
     private boolean enabled; //Used by onDisable to not save the traders if the plugin never fully enables
-    public static Plugin getInstance() {
+    static Plugin getInstance() {
         return instance;
     }
 
@@ -86,9 +86,9 @@ public class Main extends JavaPlugin {
 		 */
         final String externalAPIVersion =
             Bukkit.getPluginManager().getPlugin("Merchants").getDescription().getVersion();
-        final String InternalAPIVersion = "1.5.1";
+        final String internalAPIVersion = "1.5.1";
         if (hasMerchants) {
-            if (externalAPIVersion.equals(InternalAPIVersion)) {
+            if (externalAPIVersion.equals(internalAPIVersion)) {
                 getLogger().info("Found plugins Merchants using the same version the API (" + externalAPIVersion +
                                  "). Using that instead of the internal version.");
             }
@@ -103,7 +103,7 @@ public class Main extends JavaPlugin {
 
                     getLogger().info(
                         "Found plugins Merchants but its using an old version of the API (" + externalAPIVersion +
-                        "). The plugin will be disabled and an internal, newer version (" + InternalAPIVersion +
+                        "). The plugin will be disabled and an internal, newer version (" + internalAPIVersion +
                         "), will be used in it's place.");
                 }
                 else {
@@ -119,13 +119,13 @@ public class Main extends JavaPlugin {
             final SMerchantPlugin SMerchantPlugin = new SMerchantPlugin(this);
             versionMatch = SMerchantPlugin.Enable();
             if (!hasMerchants && versionMatch) {
-                getLogger().info("Could not find plugin Merchants, using internal API version " + InternalAPIVersion +
-                                 " with minecraft server version " + this.MCversion);
+                getLogger().info("Could not find plugin Merchants, using internal API version " + internalAPIVersion +
+                                 " with minecraft server version " + this.MCVersion);
             }
         }
         else {
             versionMatch = true;
-            getLogger().info("Found newer Merchants plugin (" + externalAPIVersion + "), using it's version");
+            getLogger().info("Using external Merchants plugin with the version" + externalAPIVersion);
         }
 
         if (versionMatch) {
@@ -149,9 +149,8 @@ public class Main extends JavaPlugin {
         if (!versionMatch || !register) {
             this.getServer().getConsoleSender().sendMessage(CHAT_PREFIX + ChatColor.RED +
                                                             "Could not enable the plugin! Due to no internal support for minecraft version " +
-                                                            this.MCversion +
+                                                            this.MCVersion +
                                                             "! Please use the plugin Merchants by cybermaxke if you want to use this addon.");
-            getLogger().log(Level.ALL, "Register: " + register + " | versionMatch: " + versionMatch);
             getServer().getPluginManager().disablePlugin(this);
         }
         else {
@@ -180,7 +179,7 @@ public class Main extends JavaPlugin {
     }
 
     private boolean supportedMCVersions() {
-        switch (this.MCversion) {
+        switch (this.MCVersion) {
             case "v111r1":
             case "v110r1":
             case "v19r2":

@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of TraderSk
  * <p>
  * Copyright (C) 2016, kh498
@@ -36,25 +36,25 @@ public class EffTraderListPages extends Effect {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3) {
-        trader = (Expression<String>) expr[0];
-        player = (Expression<Player>) expr[1];
+    public boolean init(final Expression<?>[] expr, final int arg1, final Kleenean arg2, final ParseResult arg3) {
+        this.trader = (Expression<String>) expr[0];
+        this.player = (Expression<Player>) expr[1];
         return true;
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean bool) {
+    public String toString(@Nullable final Event e, final boolean bool) {
         return "List all items for a trader";
     }
 
     @Override
-    protected void execute(Event e) {
-        Player player;
-        TradeMerchant trader;
+    protected void execute(final Event e) {
+        final Player player;
+        final TradeMerchant trader;
         try {
             player = this.player.getSingle(e);
             trader = Trader.getTradeMerchant(this.trader.getSingle(e));
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             return;
         }
         if (player == null) {
@@ -62,7 +62,7 @@ public class EffTraderListPages extends Effect {
         }
         else if (trader == null) {
             player.sendMessage("Could not find the trader. Here is a list of all traders:");
-            for (TradeMerchant t : Trader.getTraders().values()) {
+            for (final TradeMerchant t : Trader.getTraders().values()) {
                 player.sendMessage(t.getInternalName());
             }
             return;

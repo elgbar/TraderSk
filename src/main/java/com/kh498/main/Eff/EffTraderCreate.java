@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of TraderSk
  * <p>
  * Copyright (C) 2016, kh498
@@ -33,22 +33,22 @@ public class EffTraderCreate extends Effect {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] expr, int arg1, Kleenean arg2, ParseResult arg3) {
+    public boolean init(final Expression<?>[] expr, final int arg1, final Kleenean arg2, final ParseResult arg3) {
         this.trader = (Expression<String>) expr[0];
         return true;
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean bool) {
+    public String toString(@Nullable final Event e, final boolean bool) {
         return "Create a trader";
     }
 
     @Override
-    protected void execute(Event e) {
-        String trader;
+    protected void execute(final Event e) {
+        final String trader;
         try {
             trader = this.trader.getSingle(e);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             return;
         }
         if (trader == null) {

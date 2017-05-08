@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.logging.Level;
 
 public class MainConfigManager {
     public static final String DEBUG_PATH = "debug";
@@ -32,7 +33,9 @@ public class MainConfigManager {
         }
         else {
             try {
-                p.getDataFolder().mkdir();
+                if (!p.getDataFolder().mkdir()) {
+                    Main.getInstance().getLogger().log(Level.SEVERE, "Failed to create data folder!");
+                }
                 final InputStream jarURL = MainConfigManager.class.getResourceAsStream("/" + CONF_NAME);
                 copyFile(jarURL, configFile);
                 myConfig = new YamlConfiguration();

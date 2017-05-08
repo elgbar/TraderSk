@@ -1,20 +1,20 @@
-/**
- * This file is part of TraderSk
- * <p>
- * Copyright (C) 2016, kh498
- * <p>
- * TraderSk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * TraderSk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
+/*
+  This file is part of TraderSk
+  <p>
+  Copyright (C) 2016, kh498
+  <p>
+  TraderSk is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  <p>
+  TraderSk is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with TraderSk.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.kh498.main.trader;
@@ -51,7 +51,7 @@ public class Trader {
      * @param traderName Name of trader
      */
     public static void TraderNew(final String traderName) {
-        traders.put(traderName, new TradeMerchant(traderName, null));
+        traders.put(traderName, new TradeMerchant(traderName));
     }
 
     /**
@@ -206,7 +206,7 @@ public class Trader {
         String itemOUT, itemIN1, itemIN2, mode;
 
 		/*
-         * Try and set the outitem, if it throws an IndexOutOfBoundsException add the item.
+         * Try and set the out item, if it throws an IndexOutOfBoundsException add the item.
 		 */
         try {
             itemOUT = "" + tradesList.get(page);
