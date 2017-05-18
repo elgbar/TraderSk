@@ -77,17 +77,18 @@ public class Main extends JavaPlugin {
         boolean oldVersion = false;
 
 		/*
-         * returns true if you have the plugin Merchants and false if not
+         * returns the merchant plugin or null if it is not found
 		 */
-        final boolean hasMerchants = Bukkit.getPluginManager().getPlugin("Merchants") != null;
+        final Plugin merchants = Bukkit.getPluginManager().getPlugin("Merchants");
 
 		/*
          * if you're using an older version of the API and the server runs on an internally supported version then use the internal version.
 		 */
-        final String externalAPIVersion =
-            Bukkit.getPluginManager().getPlugin("Merchants").getDescription().getVersion();
+
         final String internalAPIVersion = "1.5.1";
-        if (hasMerchants) {
+        if (merchants != null) {
+            final String externalAPIVersion = merchants.getDescription().getVersion();
+
             if (externalAPIVersion.equals(internalAPIVersion)) {
                 getLogger().info("Found plugins Merchants using the same version the API (" + externalAPIVersion +
                                  "). Using that instead of the internal version.");
@@ -110,22 +111,22 @@ public class Main extends JavaPlugin {
                     getLogger().info(
                         "Found plugins Merchants but its using an old version or the same version of the API (" +
                         externalAPIVersion + "). Consider updating it.");
-
                 }
             }
         }
 
-        if (!hasMerchants || oldVersion) {
+        if (merchants == null || oldVersion) {
             final SMerchantPlugin SMerchantPlugin = new SMerchantPlugin(this);
             versionMatch = SMerchantPlugin.Enable();
-            if (!hasMerchants && versionMatch) {
+            if (merchants == null && versionMatch) {
                 getLogger().info("Could not find plugin Merchants, using internal API version " + internalAPIVersion +
                                  " with minecraft server version " + this.MCVersion);
             }
         }
         else {
             versionMatch = true;
-            getLogger().info("Using external Merchants plugin with the version" + externalAPIVersion);
+            getLogger()
+                .info("Using external Merchants plugin with the version " + merchants.getDescription().getVersion());
         }
 
         if (versionMatch) {
